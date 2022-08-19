@@ -39,7 +39,7 @@ public static class MauiProgram
         var mauiApp = mauiBuilder.Build();
 
         var param = new NetControl.Unit.Param(true, () => new ServerContext(), () => new CallContext(), "test", options, true);
-        var unit = mauiApp.Services.GetRequiredService<NetControl.Unit>();
+        var unit = builder.GetBuiltUnit();
         unit.RunStandalone(param).Wait();
 
         return mauiApp;
