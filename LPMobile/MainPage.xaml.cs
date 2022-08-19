@@ -1,4 +1,5 @@
-﻿using LP.Subcommands;
+﻿using Arc.Unit;
+using LP.Subcommands;
 
 namespace LPMobile;
 
@@ -6,7 +7,7 @@ public partial class MainPage : ContentPage
 {
     int count = 0;
 
-    public MainPage()
+    public MainPage(ILogger<MainPage> logger)
     {
         this.InitializeComponent();
     }
@@ -22,10 +23,10 @@ public partial class MainPage : ContentPage
 
         this.TextLabel.Text = "test";
 
-        if (!SubcommandService.TryParseNodeAddress(this.logger, options.Node, out var node))
+        /*if (!SubcommandService.TryParseNodeAddress(this.logger, options.Node, out var node))
         {
             return;
-        }
+        }*/
 
         SemanticScreenReader.Announce(this.CounterBtn.Text);
     }
