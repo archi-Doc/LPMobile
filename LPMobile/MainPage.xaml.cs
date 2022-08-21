@@ -19,7 +19,6 @@ public partial class MainPage : ContentPage
     private void OnCounterClicked(object sender, EventArgs e)
     {
         this.count++;
-
         if (this.count == 1)
         {
             this.CounterBtn.Text = $"Clicked {this.count} time";
@@ -30,7 +29,6 @@ public partial class MainPage : ContentPage
         }
 
         var node = this.TextEntry.Text ?? string.Empty;
-
         if (SubcommandService.TryParseNodeAddress(this.logger, node, out var nodeAddress))
         {
             using (var terminal = this.netControl.Terminal.Create(nodeAddress))
@@ -44,11 +42,6 @@ public partial class MainPage : ContentPage
                 }
             }
         }
-
-        /*if (!SubcommandService.TryParseNodeAddress(this.logger, options.Node, out var node))
-        {
-            return;
-        }*/
 
         SemanticScreenReader.Announce(this.CounterBtn.Text);
     }
