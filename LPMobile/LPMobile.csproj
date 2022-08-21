@@ -65,8 +65,4 @@
     <EmbeddedResource Include="Resources\Tinyhand\Strings-ja.tinyhand" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewService\" />
-  </ItemGroup>
-
 </Project>
