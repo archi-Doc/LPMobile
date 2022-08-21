@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
+
+using System.Diagnostics;
 using Arc.Unit;
 using LP.Subcommands;
 
@@ -6,8 +8,6 @@ namespace LPMobile;
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
-
     public MainPage(ILogger<MainPage> logger, NetControl netControl)
     {
         this.InitializeComponent();
@@ -21,9 +21,13 @@ public partial class MainPage : ContentPage
         this.count++;
 
         if (this.count == 1)
+        {
             this.CounterBtn.Text = $"Clicked {this.count} time";
+        }
         else
+        {
             this.CounterBtn.Text = $"Clicked {this.count} times";
+        }
 
         var node = this.TextEntry.Text ?? string.Empty;
 
@@ -51,4 +55,5 @@ public partial class MainPage : ContentPage
 
     private ILogger<MainPage> logger;
     private NetControl netControl;
+    private int count;
 }

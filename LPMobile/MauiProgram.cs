@@ -1,5 +1,7 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+#pragma warning disable SA1210 // Using directives should be ordered alphabetically by namespace
+
 global using System;
 global using System.Threading;
 global using System.Threading.Tasks;
@@ -48,17 +50,21 @@ public static class MauiProgram
     }
 }
 
+/// <summary>
+/// Creates an <see cref="IServiceProviderFactory{UnitBuilder}"/> instance from <see cref="UnitBuilder"/> instance.
+/// </summary>
 public class UnitBuilderToServiceProviderFactory : IServiceProviderFactory<UnitBuilder>
 {
-    public UnitBuilderToServiceProviderFactory()
-    {
-    }
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnitBuilderToServiceProviderFactory"/> class.
+    /// </summary>
+    /// <param name="builder">The underlying <see cref="UnitBuilder"/> instance that creates <see cref="UnitBuilderToServiceProviderFactory"/>.</param>
     public UnitBuilderToServiceProviderFactory(UnitBuilder builder)
     {
         this.builder = builder;
     }
 
+    /// <inheritdoc/>
     public UnitBuilder CreateBuilder(IServiceCollection services)
     {
         this.builder ??= new UnitBuilder();
@@ -73,6 +79,7 @@ public class UnitBuilderToServiceProviderFactory : IServiceProviderFactory<UnitB
         return this.builder;
     }
 
+    /// <inheritdoc/>
     public IServiceProvider CreateServiceProvider(UnitBuilder builder)
     {
         var unit = builder.Build();
