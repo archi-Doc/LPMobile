@@ -6,8 +6,9 @@ namespace LPMobile;
 
 public partial class App : Application
 {
-    public App()
+    public App(IServiceProvider serviceProvider)
     {
+        this.serviceProvider = serviceProvider;
         this.InitializeComponent();
 
         this.MainPage = new AppShell();
@@ -20,10 +21,12 @@ public partial class App : Application
         {
             ThreadCore.Root.Terminate();
             ThreadCore.Root.WaitForTermination(-1); // Wait for the termination infinitely.
-            // unit.Context.ServiceProvider.GetService<UnitLogger>()?.FlushAndTerminate();
+            this.serviceProvider.GetService<UnitLogger>()?.FlushAndTerminate();
             ThreadCore.Root.TerminationEvent.Set(); // The termination process is complete (#1).
         };
 
         return window;
     }
+
+    private IServiceProvider serviceProvider;
 }

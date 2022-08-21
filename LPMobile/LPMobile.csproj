@@ -59,4 +59,14 @@
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Tinyhand\License.tinyhand" />
+    <EmbeddedResource Include="Resources\Tinyhand\Strings-en.tinyhand" />
+    <EmbeddedResource Include="Resources\Tinyhand\Strings-ja.tinyhand" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewService\" />
+  </ItemGroup>
+
 </Project>

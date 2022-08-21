@@ -28,6 +28,8 @@ public partial class MainPage : ContentPage
             this.CounterBtn.Text = $"Clicked {this.count} times";
         }
 
+        var utf8 = Tinyhand.TinyhandSerializer.SerializeToUtf8(this.count);
+
         var node = this.TextEntry.Text ?? string.Empty;
         if (SubcommandService.TryParseNodeAddress(this.logger, node, out var nodeAddress))
         {
