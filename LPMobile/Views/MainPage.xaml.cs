@@ -17,6 +17,13 @@ public partial class MainPage : ContentPage, IViewService
         this.netControl = netControl;
 
         // this.Window.Deactivated += this.Window_Deactivated;
+
+        this.Visual.
+#if WINDOWS
+        IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this.Window);
+        Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+        Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+#endif
     }
 
     private void Window_Deactivated(object? sender, EventArgs e)

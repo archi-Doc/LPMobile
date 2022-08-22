@@ -46,7 +46,7 @@ public partial class App : MauiWinUIApplication
         int WindowHeight = 600;
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
         {
-            var mauiWindow = handler.VirtualView;
+            // var mauiWindow = handler.VirtualView;
             var nativeWindow = handler.PlatformView;
             nativeWindow.Activate();
             IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
