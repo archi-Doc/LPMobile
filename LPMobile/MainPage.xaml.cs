@@ -16,6 +16,13 @@ public partial class MainPage : ContentPage
         this.netControl = netControl;
     }
 
+    private void OnExitButtonClicked(object sender, EventArgs e)
+    {
+#if WINDOWS
+        Microsoft.Maui.MauiWinUIApplication.Current.Exit();
+#endif
+    }
+
     private void OnCounterClicked(object sender, EventArgs e)
     {
         this.count++;

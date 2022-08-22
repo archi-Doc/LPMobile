@@ -37,10 +37,9 @@ public static class MauiProgram
         // Build MauiApp & Unit.
         var mauiApp = mauiBuilder.Build();
 
+        // Run
         var options = new LP.Data.NetsphereOptions();
-        options.EnableAlternative = true;
-        options.EnableTestFeatures = true;
-        var param = new NetControl.Unit.Param(true, () => new ServerContext(), () => new CallContext(), "test", options, true);
+        var param = new NetControl.Unit.Param(false, () => new ServerContext(), () => new CallContext(), "test", options, true);
         var unit = builder.GetBuiltUnit();
         unit.RunStandalone(param).Wait();
 

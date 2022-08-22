@@ -9,6 +9,12 @@
             Padding="30,0"
             VerticalOptions="Center">
 
+            <Button
+                x:Name="ExitButton"
+                Text="Exit with confirmation"
+                Clicked="OnExitButtonClicked"
+                HorizontalOptions="Center" />
+
             <Image
                 Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"

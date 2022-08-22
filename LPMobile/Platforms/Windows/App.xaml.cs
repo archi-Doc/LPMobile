@@ -25,6 +25,9 @@ public partial class App : MauiWinUIApplication
             return; // Exit.
         }*/
 
+        this.Exit();
+        MauiWinUIApplication.Current.Exit();
+
         var prevProcess = Arc.WinAPI.Methods.GetPreviousProcess();
         if (prevProcess != null)
         {
