@@ -43,37 +43,9 @@ public partial class MainPage : ContentPage, IViewService
                 }*/
             }
 
-            Application.Current?.CloseWindow(this.Window);
-
-#if WINDOWS
-        // Microsoft.Maui.MauiWinUIApplication.Current.Exit();
-#endif
+            Application.Current?.CloseWindow(this.Window); // Microsoft.Maui.MauiWinUIApplication.Current.Exit();
         });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-    }
-
-    private Task DispatchIfRequired(Func<Task> @delegate)
-    {
-        if (this.Dispatcher.IsDispatchRequired)
-        {
-            return this.Dispatcher.DispatchAsync(@delegate);
-        }
-        else
-        {
-            return @delegate();
-        }
-    }
-
-    private Task<T> DispatchIfRequired<T>(Func<Task<T>> @delegate)
-    {
-        if (this.Dispatcher.IsDispatchRequired)
-        {
-            return this.Dispatcher.DispatchAsync(@delegate);
-        }
-        else
-        {
-            return @delegate();
-        }
     }
 
     private async void OnExitButtonClicked(object sender, EventArgs e)
@@ -85,6 +57,13 @@ public partial class MainPage : ContentPage, IViewService
             await this.ExitAsync(true);
         });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+    }
+
+    private async void OnOpenDataDirectoryButtonClicked(object sender, EventArgs e)
+    {
+#if WINDOWS
+        System.Diagnostics.Process.Start("Explorer.exe", FileSystem.Current.AppDataDirectory);
+#endif
     }
 
     private void OnCounterClicked(object sender, EventArgs e)

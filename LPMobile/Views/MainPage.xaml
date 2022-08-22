@@ -16,6 +16,12 @@
                 Clicked="OnExitButtonClicked"
                 HorizontalOptions="Center" />
 
+            <Button
+                x:Name="OpenDataDirectoryButton"
+                Text="Open data directory"
+                Clicked="OnOpenDataDirectoryButtonClicked"
+                HorizontalOptions="Center" />
+
             <Image
                 Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"

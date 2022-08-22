@@ -160,6 +160,7 @@ public partial class Methods
     /// <returns>Process.</returns>
     internal static Process? GetPreviousProcess()
     {
+#if WINDOWS
         var curProcess = Process.GetCurrentProcess();
         var allProcesses = Process.GetProcessesByName(curProcess.ProcessName);
 
@@ -176,6 +177,7 @@ public partial class Methods
                 }
             }
         }
+#endif
 
         // 同じアプリケーションのプロセスが見つからない！
         return null;

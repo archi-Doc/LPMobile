@@ -17,8 +17,9 @@ public partial class App : MauiWinUIApplication
 {
     public App()
     {
+#if WINDOWS
         // Prevents multiple instances.
-        App.mutex = new Mutex(true, AppConst.MutexName, out var createdNew);
+        App.mutex = new Mutex(true, AppInfo.Current.PackageName, out var createdNew);
         if (!createdNew)
         {
             var prevProcess = Arc.WinAPI.Methods.GetPreviousProcess();
@@ -38,6 +39,7 @@ public partial class App : MauiWinUIApplication
 
             throw new Exception();
         }
+#endif
 
         this.InitializeComponent();
 
@@ -78,5 +80,7 @@ public partial class App : MauiWinUIApplication
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 
+#if WINDOWS
     private static Mutex? mutex;
+#endif
 }
