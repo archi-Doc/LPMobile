@@ -25,9 +25,6 @@ public partial class App : MauiWinUIApplication
             return; // Exit.
         }*/
 
-        this.Exit();
-        MauiWinUIApplication.Current.Exit();
-
         var prevProcess = Arc.WinAPI.Methods.GetPreviousProcess();
         if (prevProcess != null)
         {
@@ -45,8 +42,8 @@ public partial class App : MauiWinUIApplication
 
         this.InitializeComponent();
 
-        int WindowWidth = 600;
-        int WindowHeight = 500;
+        int WindowWidth = 900;
+        int WindowHeight = 600;
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
         {
             var mauiWindow = handler.VirtualView;

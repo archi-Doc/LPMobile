@@ -4,9 +4,9 @@ using System.Diagnostics;
 using Arc.Unit;
 using LP.Subcommands;
 
-namespace LPMobile;
+namespace LPMobile.Views;
 
-public partial class MainPage : ContentPage
+public partial class MainPage : ContentPage, IViewService
 {
     public MainPage(ILogger<MainPage> logger, NetControl netControl)
     {
@@ -16,11 +16,55 @@ public partial class MainPage : ContentPage
         this.netControl = netControl;
     }
 
-    private void OnExitButtonClicked(object sender, EventArgs e)
+    public async Task ExitAsync(bool confirmation)
     {
+        if (confirmation)
+        {
+            if (await this.DispatchIfRequired<bool>(() => this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No")) == false)
+            {
+                return;
+            }
+
+            /*if (await this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
+            {// Cancel
+                return;
+            }*/
+        }
+
+        Application.Current?.CloseWindow(this.Window);
+
 #if WINDOWS
-        Microsoft.Maui.MauiWinUIApplication.Current.Exit();
+        // Microsoft.Maui.MauiWinUIApplication.Current.Exit();
 #endif
+    }
+
+    private Task DispatchIfRequired(Func<Task> @delegate)
+    {
+        if (this.Dispatcher.IsDispatchRequired)
+        {
+            return this.Dispatcher.DispatchAsync(@delegate);
+        }
+        else
+        {
+            return @delegate();
+        }
+    }
+
+    private Task<T> DispatchIfRequired<T>(Func<Task<T>> @delegate)
+    {
+        if (this.Dispatcher.IsDispatchRequired)
+        {
+            return this.Dispatcher.DispatchAsync(@delegate);
+        }
+        else
+        {
+            return @delegate();
+        }
+    }
+
+    private async void OnExitButtonClicked(object sender, EventArgs e)
+    {
+        await this.ExitAsync(true);
     }
 
     private void OnCounterClicked(object sender, EventArgs e)
@@ -60,4 +104,10 @@ public partial class MainPage : ContentPage
     private ILogger<MainPage> logger;
     private NetControl netControl;
     private int count;
+
+    private async void ContentPage_Disappearing(object sender, EventArgs e)
+    {
+        await DisplayAlert("ContentPage_Disappearing", "終了時", "OK");
+        // await this.ExitAsync(true);
+    }
 }

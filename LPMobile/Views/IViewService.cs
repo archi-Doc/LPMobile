@@ -1,10 +1,10 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-namespace LPMobile;
+namespace LPMobile.Views;
 
-public interface IAppService
+public interface IViewService
 {
-    void Message(MessageId id); // Message Id
+    Task ExitAsync(bool confirmation = false);
 }
 
 public enum MessageId

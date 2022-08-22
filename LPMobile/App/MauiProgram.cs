@@ -9,6 +9,7 @@ global using Arc.Threading;
 global using LP;
 global using Netsphere;
 using Arc.Unit;
+using LPMobile.Views;
 
 namespace LPMobile;
 
@@ -20,7 +21,8 @@ public static class MauiProgram
         var builder = new NetControl.Builder().Configure(context =>
         {
             context.AddSingleton<App>();
-            context.AddSingleton<MainPage>();
+            context.AddSingleton<Views.MainPage>();
+            context.AddSingleton<Views.IViewService, Views.MainPage>();
         });
 
         // Maui Builder
