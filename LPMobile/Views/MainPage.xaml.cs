@@ -15,41 +15,41 @@ public partial class MainPage : ContentPage, IViewService
 
         this.logger = logger;
         this.netControl = netControl;
-
-        // this.Window.Deactivated += this.Window_Deactivated;
-
-        this.Visual.
-#if WINDOWS
-        IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this.Window);
-        Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-        Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-#endif
     }
 
-    private void Window_Deactivated(object? sender, EventArgs e)
+    public bool DisplayAlert()
     {
+        // MainThread.BeginInvokeOnMainThread(() => this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No"));
+        MainThread.InvokeOnMainThreadAsync(() => this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No"));
+        // this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No").Wait();
+        return true;
     }
 
     public async Task ExitAsync(bool confirmation)
     {
-        if (confirmation)
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        MainThread.InvokeOnMainThreadAsync(async () =>
         {
-            if (await this.DispatchIfRequired<bool>(() => this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No")) == false)
+            if (confirmation)
             {
-                return;
+                if (await this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
+                {
+                    return;
+                }
+
+                /*if (await this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
+                {// Cancel
+                    return;
+                }*/
             }
 
-            /*if (await this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
-            {// Cancel
-                return;
-            }*/
-        }
-
-        Application.Current?.CloseWindow(this.Window);
+            Application.Current?.CloseWindow(this.Window);
 
 #if WINDOWS
         // Microsoft.Maui.MauiWinUIApplication.Current.Exit();
 #endif
+        });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 
     private Task DispatchIfRequired(Func<Task> @delegate)
@@ -78,7 +78,13 @@ public partial class MainPage : ContentPage, IViewService
 
     private async void OnExitButtonClicked(object sender, EventArgs e)
     {
-        await this.ExitAsync(true);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        Task.Run(async () =>
+        {
+            await Task.Delay(1000);
+            await this.ExitAsync(true);
+        });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 
     private void OnCounterClicked(object sender, EventArgs e)
@@ -118,4 +124,22 @@ public partial class MainPage : ContentPage, IViewService
     private ILogger<MainPage> logger;
     private NetControl netControl;
     private int count;
+
+    private void ContentPage_Appearing(object sender, EventArgs e)
+    {
+#if WINDOWS
+        /*try
+        {
+            if (this.GetParentWindow().Handler?.PlatformView is { } nativeWindow)
+            {
+                IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
+                Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+                Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+            }
+        }
+        catch
+        {
+        }*/
+#endif
+    }
 }

@@ -5,6 +5,8 @@ namespace LPMobile.Views;
 public interface IViewService
 {
     Task ExitAsync(bool confirmation = false);
+
+    bool DisplayAlert();
 }
 
 public enum MessageId

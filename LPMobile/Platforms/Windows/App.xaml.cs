@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using LPMobile.Views;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
@@ -16,7 +17,6 @@ public partial class App : MauiWinUIApplication
 {
     public App()
     {
-#if WINDOWS
         // Prevents multiple instances.
         App.mutex = new Mutex(true, AppConst.MutexName, out var createdNew);
         if (!createdNew)
@@ -38,33 +38,45 @@ public partial class App : MauiWinUIApplication
 
             throw new Exception();
         }
-#endif
 
         this.InitializeComponent();
 
-        int WindowWidth = 900;
-        int WindowHeight = 600;
+        int windowWidth = 900;
+        int windowHeight = 600;
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
         {
-            // var mauiWindow = handler.VirtualView;
+            var mauiWindow = handler.VirtualView;
             var nativeWindow = handler.PlatformView;
             nativeWindow.Activate();
             IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
             WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
             AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            appWindow.Resize(new SizeInt32(WindowWidth, WindowHeight));
+            appWindow.Resize(new SizeInt32(windowWidth, windowHeight));
+
+            appWindow.Closing += async (s, e) =>
+            {
+                if (MauiProgram.ServiceProvider.GetService<IViewService>() is { } viewService)
+                {
+                    e.Cancel = true;
+                    await viewService.ExitAsync(true);
+
+                    /*Task.Run(async () =>
+                    {
+                        await Task.Delay(1000);
+                        await viewService.ExitAsync(true);
+                    });*/
+
+                    // var task = new Task(() => viewService.ExitAsync(true), TaskCreationOptions.RunContinuationsAsynchronously);
+                    // task.Start();
+                    // viewService.ExitAsync(true).Wait();
+                }
+            };
+
             // appWindow.Title = "test";
         });
     }
 
-    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-    {
-        base.OnLaunched(args);
-    }
-
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 
-#if WINDOWS
     private static Mutex? mutex;
-#endif
 }

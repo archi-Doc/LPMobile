@@ -10,6 +10,7 @@ global using LP;
 global using Netsphere;
 using Arc.Unit;
 using LPMobile.Views;
+using Tinyhand;
 
 namespace LPMobile;
 
@@ -17,12 +18,15 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        // Prepare
+        Prepare();
+
         // UnitBuilder
         var builder = new NetControl.Builder().Configure(context =>
         {
             context.AddSingleton<App>();
             context.AddSingleton<Views.MainPage>();
-            context.AddSingleton<Views.IViewService, Views.MainPage>();
+            context.Services.AddSingleton<Views.IViewService, Views.MainPage>(x => x.GetRequiredService<Views.MainPage>());
         });
 
         // Maui Builder
@@ -38,6 +42,7 @@ public static class MauiProgram
 
         // Build MauiApp & Unit.
         var mauiApp = mauiBuilder.Build();
+        ServiceProvider = mauiApp.Services;
 
         // Run
         var options = new LP.Data.NetsphereOptions();
@@ -46,5 +51,29 @@ public static class MauiProgram
         unit.RunStandalone(param).Wait();
 
         return mauiApp;
+    }
+
+    public static IServiceProvider ServiceProvider { get; private set; } = default!;
+
+    private static void Prepare()
+    {
+        var dir = FileSystem.Current.CacheDirectory;
+        var dir2 = FileSystem.Current.AppDataDirectory;
+
+        // HashedString
+        try
+        {
+            HashedString.SetDefaultCulture(AppConst.DefaultCulture); // default culture
+
+            var asm = System.Reflection.Assembly.GetExecutingAssembly();
+            HashedString.LoadAssembly("ja", asm, "Resources.Tinyhand.License.tinyhand");
+            HashedString.LoadAssembly("ja", asm, "Resources.Tinyhand.Strings-ja.tinyhand");
+            HashedString.LoadAssembly("en", asm, "Resources.Tinyhand.Strings-en.tinyhand");
+        }
+        catch
+        {
+        }
+
+        var ai = AppInfo.Current;
     }
 }

@@ -160,10 +160,10 @@ public partial class Methods
     /// <returns>Process.</returns>
     internal static Process? GetPreviousProcess()
     {
-        Process curProcess = Process.GetCurrentProcess();
-        Process[] allProcesses = Process.GetProcessesByName(curProcess.ProcessName);
+        var curProcess = Process.GetCurrentProcess();
+        var allProcesses = Process.GetProcessesByName(curProcess.ProcessName);
 
-        foreach (Process checkProcess in allProcesses)
+        foreach (var checkProcess in allProcesses)
         {
             // 自分自身のプロセスIDは無視する
             if (checkProcess.Id != curProcess.Id)

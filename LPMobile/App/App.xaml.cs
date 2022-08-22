@@ -28,7 +28,7 @@ public partial class App : Application
         };
 
         window.Stopped += async (s, e) =>
-        {
+        {// Exit1 (Window is still visible)
             /*if (this.serviceProvider.GetService<IViewService>() is { } viewService)
             {
                 await viewService.ExitAsync(true);
