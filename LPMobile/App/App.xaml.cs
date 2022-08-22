@@ -1,6 +1,7 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using Arc.Unit;
+using LPMobile.Views;
 
 namespace LPMobile;
 
@@ -25,6 +26,17 @@ public partial class App : Application
             this.serviceProvider.GetService<UnitLogger>()?.FlushAndTerminate();
             ThreadCore.Root.TerminationEvent.Set(); // The termination process is complete (#1).
         };
+
+        window.Stopped += async (s, e) =>
+        {
+            /*if (this.serviceProvider.GetService<IViewService>() is { } viewService)
+            {
+                await viewService.ExitAsync(true);
+                return;
+            }*/
+        };
+
+        // window.Resumed
 
         return window;
     }

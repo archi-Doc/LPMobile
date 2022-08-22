@@ -16,29 +16,29 @@ public partial class App : MauiWinUIApplication
 {
     public App()
     {
+#if WINDOWS
         // Prevents multiple instances.
-        /*var mutex = new System.Threading.Mutex(false, AppConst.MutexName);
-        if (!mutex.WaitOne(0, false))
+        App.mutex = new Mutex(true, AppConst.MutexName, out var createdNew);
+        if (!createdNew)
         {
-            mutex.Close(); // Release mutex.
-
-            return; // Exit.
-        }*/
-
-        var prevProcess = Arc.WinAPI.Methods.GetPreviousProcess();
-        if (prevProcess != null)
-        {
-            var handle = prevProcess.MainWindowHandle; // The window handle that associated with the previous process.
-            if (handle == IntPtr.Zero)
+            var prevProcess = Arc.WinAPI.Methods.GetPreviousProcess();
+            if (prevProcess != null)
             {
-                handle = Arc.WinAPI.Methods.GetWindowHandle(prevProcess.Id, string.Empty); // Get handle.
+                var handle = prevProcess.MainWindowHandle; // The window handle that associated with the previous process.
+                if (handle == IntPtr.Zero)
+                {
+                    handle = Arc.WinAPI.Methods.GetWindowHandle(prevProcess.Id, string.Empty); // Get handle.
+                }
+
+                if (handle != IntPtr.Zero)
+                {
+                    Arc.WinAPI.Methods.ActivateWindow(handle);
+                }
             }
 
-            if (handle != IntPtr.Zero)
-            {
-                Arc.WinAPI.Methods.ActivateWindow(handle);
-            }
+            throw new Exception();
         }
+#endif
 
         this.InitializeComponent();
 
@@ -57,5 +57,14 @@ public partial class App : MauiWinUIApplication
         });
     }
 
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    {
+        base.OnLaunched(args);
+    }
+
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+#if WINDOWS
+    private static Mutex? mutex;
+#endif
 }

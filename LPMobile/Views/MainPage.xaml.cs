@@ -11,9 +11,16 @@ public partial class MainPage : ContentPage, IViewService
     public MainPage(ILogger<MainPage> logger, NetControl netControl)
     {
         this.InitializeComponent();
+        // this.BindingContext = vm;
 
         this.logger = logger;
         this.netControl = netControl;
+
+        // this.Window.Deactivated += this.Window_Deactivated;
+    }
+
+    private void Window_Deactivated(object? sender, EventArgs e)
+    {
     }
 
     public async Task ExitAsync(bool confirmation)
@@ -104,10 +111,4 @@ public partial class MainPage : ContentPage, IViewService
     private ILogger<MainPage> logger;
     private NetControl netControl;
     private int count;
-
-    private async void ContentPage_Disappearing(object sender, EventArgs e)
-    {
-        await DisplayAlert("ContentPage_Disappearing", "終了時", "OK");
-        // await this.ExitAsync(true);
-    }
 }
