@@ -5,46 +5,16 @@ using Arc.Unit;
 
 namespace LPMobile.Views;
 
-public partial class MainPage : ContentPage, IViewService
+public partial class MainPage : ContentPage
 {
-    public MainPage(ILogger<MainPage> logger, NetControl netControl)
+    public MainPage(IViewService viewService, ILogger<MainPage> logger, NetControl netControl)
     {
         this.InitializeComponent();
         // this.BindingContext = vm;
 
+        this.viewService = viewService;
         this.logger = logger;
         this.netControl = netControl;
-    }
-
-    public bool DisplayAlert()
-    {
-        // MainThread.BeginInvokeOnMainThread(() => this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No"));
-        MainThread.InvokeOnMainThreadAsync(() => this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No"));
-        // this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No").Wait();
-        return true;
-    }
-
-    public async Task ExitAsync(bool confirmation)
-    {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        MainThread.InvokeOnMainThreadAsync(async () =>
-        {
-            if (confirmation)
-            {
-                if (await this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
-                {
-                    return;
-                }
-
-                /*if (await this.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
-                {// Cancel
-                    return;
-                }*/
-            }
-
-            Application.Current?.CloseWindow(this.Window); // Microsoft.Maui.MauiWinUIApplication.Current.Exit();
-        });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 
     private async void OnExitButtonClicked(object sender, EventArgs e)
@@ -53,7 +23,7 @@ public partial class MainPage : ContentPage, IViewService
         Task.Run(async () =>
         {
             await Task.Delay(1000);
-            await this.ExitAsync(true);
+            await this.viewService.ExitAsync(true);
         });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
@@ -105,6 +75,7 @@ public partial class MainPage : ContentPage, IViewService
         await Shell.Current.GoToAsync("//settings");
     }
 
+    private IViewService viewService;
     private ILogger<MainPage> logger;
     private NetControl netControl;
     private int count;

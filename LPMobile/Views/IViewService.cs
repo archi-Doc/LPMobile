@@ -4,6 +4,8 @@ namespace LPMobile.Views;
 
 public interface IViewService
 {
+    Page CurrentPage { get; set; }
+
     Task ExitAsync(bool confirmation = false);
 
     bool DisplayAlert();

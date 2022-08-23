@@ -25,9 +25,10 @@ public static class MauiProgram
         var builder = new NetControl.Builder().Configure(context =>
         {
             context.AddSingleton<App>();
+            context.Services.AddSingleton<Views.IViewService, Views.ViewServiceImpl>();
+            context.AddSingleton<Views.AppShell>();
             context.AddSingleton<Views.MainPage>();
             context.AddSingleton<Views.SettingsPage>();
-            context.Services.AddSingleton<Views.IViewService, Views.MainPage>(x => x.GetRequiredService<Views.MainPage>());
         });
 
         // Maui Builder

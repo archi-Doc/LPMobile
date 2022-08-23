@@ -12,7 +12,7 @@ public partial class App : Application
         this.serviceProvider = serviceProvider;
         this.InitializeComponent();
 
-        this.MainPage = new AppShell();
+        this.MainPage = this.serviceProvider.GetRequiredService<AppShell>();
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
