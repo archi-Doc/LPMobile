@@ -11,8 +11,6 @@ public interface IViewService
 
 public enum MessageId
 { // ViewService: MessageId
-    Exit, // exit application with confirmation
-    ExitWithoutConfirmation, // exit application without confirmation
     SwitchCulture, // switch culture
     Information, // information dialog
     Settings, // settings dialog

@@ -2,7 +2,6 @@
 
 using System.Diagnostics;
 using Arc.Unit;
-using LP.Subcommands;
 
 namespace LPMobile.Views;
 
@@ -81,7 +80,7 @@ public partial class MainPage : ContentPage, IViewService
         var utf8 = Tinyhand.TinyhandSerializer.SerializeToUtf8(this.count);
 
         var node = this.TextEntry.Text ?? string.Empty;
-        if (SubcommandService.TryParseNodeAddress(this.logger, node, out var nodeAddress))
+        if (LP.Subcommands.SubcommandService.TryParseNodeAddress(this.logger, node, out var nodeAddress))
         {
             using (var terminal = this.netControl.Terminal.Create(nodeAddress))
             {
@@ -98,6 +97,12 @@ public partial class MainPage : ContentPage, IViewService
         this.Title = "test2";
 
         SemanticScreenReader.Announce(this.CounterBtn.Text);
+    }
+
+    private async void OnSettingsButtonClicked(object sender, EventArgs e)
+    {
+        // this.Scale *= 1.2;
+        await Shell.Current.GoToAsync("//settings");
     }
 
     private ILogger<MainPage> logger;

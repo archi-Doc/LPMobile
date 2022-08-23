@@ -26,6 +26,7 @@ public static class MauiProgram
         {
             context.AddSingleton<App>();
             context.AddSingleton<Views.MainPage>();
+            context.AddSingleton<Views.SettingsPage>();
             context.Services.AddSingleton<Views.IViewService, Views.MainPage>(x => x.GetRequiredService<Views.MainPage>());
         });
 

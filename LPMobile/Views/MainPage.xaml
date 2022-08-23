@@ -54,6 +54,12 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
 
+            <Button
+                x:Name="SettingsButton"
+                Text="Settings page"
+                Clicked="OnSettingsButtonClicked"
+                HorizontalOptions="Center" />
+
         </VerticalStackLayout>
     </ScrollView>
 
