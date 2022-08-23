@@ -10,6 +10,7 @@ global using LP;
 global using Netsphere;
 using Arc.Unit;
 using LPMobile.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Tinyhand;
 
 namespace LPMobile;
@@ -59,9 +60,6 @@ public static class MauiProgram
 
     private static void Prepare()
     {
-        var dir = FileSystem.Current.CacheDirectory;
-        var dir2 = FileSystem.Current.AppDataDirectory;
-
         // HashedString
         try
         {
@@ -75,7 +73,5 @@ public static class MauiProgram
         catch
         {
         }
-
-        var ai = AppInfo.Current;
     }
 }

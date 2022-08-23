@@ -47,12 +47,12 @@ public partial class App : MauiWinUIApplication
         int windowHeight = 600;
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
         {
-            var mauiWindow = handler.VirtualView;
+            // var mauiWindow = handler.VirtualView;
             var nativeWindow = handler.PlatformView;
             nativeWindow.Activate();
-            IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
-            WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-            AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+            var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
+            var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
+            var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
             appWindow.Resize(new SizeInt32(windowWidth, windowHeight));
 
             appWindow.Closing += async (s, e) =>
@@ -61,20 +61,14 @@ public partial class App : MauiWinUIApplication
                 {
                     e.Cancel = true;
                     await viewService.ExitAsync(true);
-
-                    /*Task.Run(async () =>
-                    {
-                        await Task.Delay(1000);
-                        await viewService.ExitAsync(true);
-                    });*/
-
-                    // var task = new Task(() => viewService.ExitAsync(true), TaskCreationOptions.RunContinuationsAsynchronously);
-                    // task.Start();
-                    // viewService.ExitAsync(true).Wait();
                 }
             };
 
-            // appWindow.Title = "test";
+            appWindow.Title = AppInfo.Current.Name;
+            /*if (MauiProgram.ServiceProvider.GetService<ViewServiceImpl>() is { } viewService)
+            {
+                viewService.SetTitleDelegate(() => appWindow.Title, x => appWindow.Title = x);
+            }*/
         });
     }
 

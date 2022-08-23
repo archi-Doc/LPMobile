@@ -4,21 +4,17 @@ namespace LPMobile.Views;
 
 public interface IViewService
 {
-    Page CurrentPage { get; set; }
+    // Page CurrentPage { get; set; }
+
+    // string WindowTitle { get; set; }
 
     Task ExitAsync(bool confirmation = false);
-
-    bool DisplayAlert();
 }
 
 public enum MessageId
-{ // ViewService: MessageId
+{
     SwitchCulture, // switch culture
     Information, // information dialog
-    Settings, // settings dialog
     Help, // help
     DisplayScaling, // Update display scaling.
-    ActivateWindow, // Brings the window into the foreground and activates the window.
-    ActivateWindowForce, // Brings the window into the foreground forcibly, and activates the window.
-    DataFolder, // Open data folder.
 }

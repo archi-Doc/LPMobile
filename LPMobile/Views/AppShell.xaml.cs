@@ -8,6 +8,9 @@ public partial class AppShell : Shell
     {
         this.InitializeComponent();
 
-        viewService.CurrentPage = this;
+        this.viewService = viewService;
+        // viewService.CurrentPage = this;
     }
+
+    private IViewService viewService;
 }
