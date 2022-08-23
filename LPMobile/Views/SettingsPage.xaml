@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:LPMobile.Views"
              x:Class="LPMobile.Views.SettingsPage"
-             Shell.NavBarIsVisible="False"><!--Hide Navigation Bar-->
+             Shell.NavBarIsVisible="False">
+    <!--Hide Navigation Bar-->
     <VerticalStackLayout>
-        
+
         <Label 
             Text="Settings"
             VerticalOptions="Center" 
@@ -15,6 +17,19 @@
                 Text="Exit with confirmation"
                 Clicked="OnExitButtonClicked"
                 HorizontalOptions="Center" />
-        
+
+        <Label
+            x:Name="LicenseLabel">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="XAML中で" />
+                    <Span Text="色を付けたり" TextColor="Red" />
+                    <Span Text="できます。" />
+                    <local:HyperlinkSpan Text="here------"
+                                         Url="https://docs.microsoft.com/dotnet/" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
     </VerticalStackLayout>
 </ContentPage>

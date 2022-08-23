@@ -9,9 +9,9 @@ public partial class SettingsPage : ContentPage
 {
     public SettingsPage(IViewService viewService)
     {
-        this.viewService = viewService;
-
         this.InitializeComponent();
+
+        this.viewService = viewService;
     }
 
     private async void OnExitButtonClicked(object sender, EventArgs e)
