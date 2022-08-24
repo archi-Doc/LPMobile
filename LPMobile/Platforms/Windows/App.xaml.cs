@@ -57,13 +57,17 @@ public partial class App : MauiWinUIApplication
             var appData = handler.MauiContext?.Services.GetService<AppData>();
             if (appData?.LoadError == false)
             {
-                RectInt32 r = default;
-                r.X = appData.Settings.WindowX;
-                r.Y = appData.Settings.WindowY;
-                r.Width = appData.Settings.WindowWidth;
-                r.Height = appData.Settings.WindowHeight;
+                var window = appData.Settings.AppWindow;
+                var r = default(RectInt32);
+                r.X = window.X;
+                r.Y = window.Y;
+                r.Width = window.Width;
+                r.Height = window.Height;
                 appWindow.MoveAndResize(r);
-                // ApplicationData.Current.LocalSettings.Values.
+                if (window.IsMaximized && appWindow.Presenter is OverlappedPresenter p)
+                {
+                    p.Maximize();
+                }
             }
 
             appWindow.Closing += async (s, e) =>
@@ -73,14 +77,24 @@ public partial class App : MauiWinUIApplication
                     e.Cancel = true;
                     await viewService.ExitAsync(true);
                 }
+            };
 
-                var appSettings = handler.MauiContext?.Services.GetService<AppSettings>();
-                if (appSettings != null)
+            appWindow.Changed += (sender, args) =>
+            {
+                if (args.DidPositionChange || args.DidSizeChange)
                 {
-                    appSettings.WindowX = s.Position.X;
-                    appSettings.WindowY = s.Position.Y;
-                    appSettings.WindowWidth = s.Size.Width;
-                    appSettings.WindowHeight = s.Size.Height;
+                    if (handler.MauiContext?.Services.GetService<AppSettings>() is { } appSettings &&
+                    sender.Presenter is OverlappedPresenter presenter)
+                    {
+                        appSettings.AppWindow.IsMaximized = presenter.State == OverlappedPresenterState.Maximized;
+                        if (!appSettings.AppWindow.IsMaximized)
+                        {
+                            appSettings.AppWindow.X = sender.Position.X;
+                            appSettings.AppWindow.Y = sender.Position.Y;
+                            appSettings.AppWindow.Width = sender.Size.Width;
+                            appSettings.AppWindow.Height = sender.Size.Height;
+                        }
+                    }
                 }
             };
 

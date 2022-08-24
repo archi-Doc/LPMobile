@@ -64,8 +64,6 @@ public partial class MainPage : ContentPage
             }
         }
 
-        this.Title = "test2";
-
         SemanticScreenReader.Announce(this.CounterBtn.Text);
     }
 
