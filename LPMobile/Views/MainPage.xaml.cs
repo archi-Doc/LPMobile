@@ -69,18 +69,9 @@ public partial class MainPage : ContentPage
 
     private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
-        var list = this.GetVisualTreeDescendants();
-        foreach (var x in list)
-        {
-            if (x is Button button)
-            {
-                button.FontSize *= 1.2;
-            }
-            else if (x is Label label)
-            {
-                label.FontSize *= 1.2;
-            }
-        }
+        var scale = this.viewService.GetFontScale();
+        scale *= 1.2d;
+        this.viewService.SetFontScale(scale);
 
         // await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
     }
@@ -89,4 +80,9 @@ public partial class MainPage : ContentPage
     private ILogger<MainPage> logger;
     private NetControl netControl;
     private int count;
+
+    private void ContentPage_Appearing(object sender, EventArgs e)
+    {
+        this.
+    }
 }

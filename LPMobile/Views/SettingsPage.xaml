@@ -24,11 +24,7 @@
                 <FormattedString>
                     <Span Text="XAML中で" />
                     <Span Text="色を付けたり" TextColor="Red" />
-                    <Span Text="できます。">
-                        <Span.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" />
-                        </Span.GestureRecognizers>
-                    </Span>
+                    <Span Text="できます。" />
                     <local:HyperlinkSpan Text="here------"
                                          Url="https://docs.microsoft.com/dotnet/" />
                 </FormattedString>

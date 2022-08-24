@@ -1,5 +1,7 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using Tinyhand;
+
 namespace LPMobile.Views;
 
 internal class ViewServiceImpl : IViewService
@@ -36,13 +38,70 @@ internal class ViewServiceImpl : IViewService
                 }
             }
 
-            if (page != null)
+            Application.Current?.Quit();
+            /*if (page != null)
             {
                 Application.Current?.CloseWindow(page.Window); // Microsoft.Maui.MauiWinUIApplication.Current.Exit();
-            }
+            }*/
         });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
+
+    public double GetFontScale() => this.fontScale;
+
+    public void SetFontScale(double scale)
+    {
+        var ratio = scale / this.fontScale;
+        if (ratio == 1)
+        {
+            return;
+        }
+
+        if (Application.Current?.MainPage is { } mainPage)
+        {
+            if (mainPage is Shell shell)
+            {
+                ProcessElements(shell.CurrentItem.GetVisualTreeDescendants(), ratio);
+            }
+            else
+            {
+                ProcessElements(mainPage.GetVisualTreeDescendants(), ratio);
+            }
+        }
+
+        this.fontScale = scale;
+
+        static void ProcessElements(IReadOnlyList<IVisualTreeElement> list, double ratio)
+        {
+            foreach (var x in list)
+            {// IFontElement
+                if (x is Button button)
+                {
+                    button.FontSize *= ratio;
+                }
+                else if (x is Editor editor)
+                {
+                    editor.FontSize *= ratio;
+                }
+                else if (x is Entry entry)
+                {
+                    entry.FontSize *= ratio;
+                }
+                else if (x is Label label)
+                {
+                    label.FontSize *= ratio;
+                }
+            }
+        }
+    }
+
+    public void SwitchCulture(string culture)
+    {
+        HashedString.ChangeCulture(culture);
+        // Arc.WPF.C4Updater.C4Update();
+    }
+
+    private double fontScale = 1.0d;
 
     // private Page currentPage = default!;
 

@@ -13,7 +13,7 @@ public partial class AppSettings : ITinyhandSerializationCallback
 
     public AppWindow AppWindow { get; set; } = default!;
 
-    public double FontScaling { get; set; } = 1.0d; // Font Scaling
+    public double FontScale { get; set; } = 1.0d; // Font scale
 
     // [Key(4)]
     // public TestItem.GoshujinClass TestItems { get; set; } = default!;
