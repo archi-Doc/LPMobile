@@ -13,15 +13,13 @@ public partial class AppSettings : ITinyhandSerializationCallback
 
     public AppWindow AppWindow { get; set; } = default!;
 
-    public double DisplayScaling { get; set; } = 1.0d; // Display Scaling
+    public double FontScaling { get; set; } = 1.0d; // Font Scaling
 
     // [Key(4)]
     // public TestItem.GoshujinClass TestItems { get; set; } = default!;
 
     public void OnAfterDeserialize()
     {
-        // Transformer.Instance.ScaleX = this.DisplayScaling;
-        // Transformer.Instance.ScaleY = this.DisplayScaling;
     }
 
     public void OnBeforeSerialize()

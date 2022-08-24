@@ -129,6 +129,9 @@ public partial class Methods
     [DllImport("SHCore.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
     internal static extern void GetDpiForMonitor(IntPtr hmonitor, MonitorDpiType dpiType, ref uint dpiX, ref uint dpiY);
 
+    [DllImport("User32.dll", CharSet = CharSet.Auto)]
+    internal static extern bool GetMonitorInfo(IntPtr hmonitor, [In, Out] MONITORINFOEX info);
+
     /// <summary>
     /// Get the dots per inch (dpi) of a display.
     /// </summary>
@@ -318,76 +321,6 @@ public partial class Methods
         return result;
     }
 
-    internal static void SendKey(VirtualKeyCode keyCode)
-    {
-        INPUT[] input = new INPUT[2];
-
-        input[0].Type = (uint)InputType.Keyboard;
-        input[0].Data.Keyboard = new KEYBDINPUT
-        {
-            KeyCode = (ushort)keyCode,
-            Scan = 0,
-            Flags = IsExtendedKey(keyCode) ? (uint)KeyboardFlag.ExtendedKey : 0,
-            Time = 0,
-            ExtraInfo = IntPtr.Zero,
-        };
-
-        input[1].Type = (uint)InputType.Keyboard;
-        input[1].Data.Keyboard = new KEYBDINPUT
-        {
-            KeyCode = (ushort)keyCode,
-            Scan = 0,
-            Flags = (IsExtendedKey(keyCode) ? (uint)KeyboardFlag.ExtendedKey : 0) | (uint)KeyboardFlag.KeyUp,
-            Time = 0,
-            ExtraInfo = IntPtr.Zero,
-        };
-
-        var result = SendInput(2, input, Marshal.SizeOf(typeof(INPUT)));
-    }
-
-    internal static bool IsExtendedKey(VirtualKeyCode keyCode)
-    {
-        if (keyCode == VirtualKeyCode.MENU ||
-            keyCode == VirtualKeyCode.LMENU ||
-            keyCode == VirtualKeyCode.RMENU ||
-            keyCode == VirtualKeyCode.CONTROL ||
-            keyCode == VirtualKeyCode.RCONTROL ||
-            keyCode == VirtualKeyCode.INSERT ||
-            keyCode == VirtualKeyCode.DELETE ||
-            keyCode == VirtualKeyCode.HOME ||
-            keyCode == VirtualKeyCode.END ||
-            keyCode == VirtualKeyCode.PRIOR ||
-            keyCode == VirtualKeyCode.NEXT ||
-            keyCode == VirtualKeyCode.RIGHT ||
-            keyCode == VirtualKeyCode.UP ||
-            keyCode == VirtualKeyCode.LEFT ||
-            keyCode == VirtualKeyCode.DOWN ||
-            keyCode == VirtualKeyCode.NUMLOCK ||
-            keyCode == VirtualKeyCode.CANCEL ||
-            keyCode == VirtualKeyCode.SNAPSHOT ||
-            keyCode == VirtualKeyCode.DIVIDE)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    [DllImport("kernel32.dll")]
-    internal static extern IntPtr LoadLibrary(string lpFileName);
-
-    [DllImport("kernel32.dll")]
-    internal static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
-
-    [DllImport("kernel32.dll")]
-    internal static extern bool FreeLibrary(IntPtr hLibModule);
-
-    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-    internal static extern int SHFileOperation([In] ref SHFILEOPSTRUCT lpFileOp);
-
-    // 外部プロセスのメイン・ウィンドウを起動するためのWin32 API
     [DllImport("user32.dll")]
     internal static extern bool SetForegroundWindow(IntPtr hWnd);
 
@@ -454,25 +387,8 @@ public partial class Methods
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     internal static extern bool GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
-    // キー操作、マウス操作をシミュレート(擬似的に操作する)
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbsize);
-
-    // 仮想キーコードをスキャンコードに変換
-    [DllImport("user32.dll", EntryPoint = "MapVirtualKeyA")]
-    internal static extern int MapVirtualKey(int wCode, int wMapType);
-
-    [DllImport("user32.dll")]
-    internal static extern void GetCursorPos(out POINT32 pt);
-
-    [DllImport("user32.dll")]
-    internal static extern int ScreenToClient(IntPtr hwnd, ref POINT32 pt);
-
     [DllImport("user32.dll")]
     internal static extern int GetWindowLong(IntPtr hwnd, int index);
-
-    [DllImport("user32.dll")]
-    internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
     [DllImport("user32.dll")]
     internal static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int width, int height, uint flags);
@@ -540,6 +456,17 @@ public enum MonitorDpiType
     Default = EffectiveDpi,
 }
 
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+public class MONITORINFOEX
+{
+    public int cbSize = Marshal.SizeOf(typeof(MONITORINFOEX));
+    public RECT rcMonitor = default;
+    public RECT rcWork = default;
+    public int dwFlags = 0;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+    public char[] szDevice = new char[32];
+}
+
 public enum FOFunc : uint
 {
     FO_MOVE = 0x0001,
@@ -569,32 +496,10 @@ public enum FOFlags : ushort
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct SHFILEOPSTRUCT
-{
-    public IntPtr hwnd;
-    public FOFunc wFunc;
-    [MarshalAs(UnmanagedType.LPWStr)]
-    public string pFrom;
-    [MarshalAs(UnmanagedType.LPWStr)]
-    public string pTo;
-    public FOFlags fFlags;
-    public bool fAnyOperationsAborted;
-    public IntPtr hNameMappings;
-    [MarshalAs(UnmanagedType.LPWStr)]
-    public string lpszProgressTitle;
-}
-
-[StructLayout(LayoutKind.Sequential)]
 public struct POINT32
 {
     public uint X;
     public uint Y;
-}
-
-internal struct INPUT
-{
-    public uint Type; // 0:mouse, 1:keyboard, 2:hardware
-    public MOUSEKEYBDHARDWAREINPUT Data;
 }
 
 [StructLayout(LayoutKind.Explicit)]

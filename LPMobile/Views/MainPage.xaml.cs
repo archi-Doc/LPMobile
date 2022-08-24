@@ -69,8 +69,20 @@ public partial class MainPage : ContentPage
 
     private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
-        // this.Scale *= 1.2;
-        await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
+        var list = this.GetVisualTreeDescendants();
+        foreach (var x in list)
+        {
+            if (x is Button button)
+            {
+                button.FontSize *= 1.2;
+            }
+            else if (x is Label label)
+            {
+                label.FontSize *= 1.2;
+            }
+        }
+
+        // await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
     }
 
     private IViewService viewService;
