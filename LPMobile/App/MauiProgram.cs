@@ -34,8 +34,6 @@ public static class MauiProgram
             {
                 // App
                 context.AddSingleton<App>();
-                context.AddSingleton<AppData>();
-                context.AddSingleton<AppSettings>();
 
                 // Views
                 context.Services.AddSingleton<Views.IViewService, Views.ViewServiceImpl>();
@@ -99,5 +97,27 @@ public static class MauiProgram
 
     private static void LoadData(IUnitPreloadContext context)
     {
+        AppData? appData = null;
+        bool loadError = false;
+
+        try
+        {
+            var data = File.ReadAllBytes(Path.Combine(context.DataDirectory, AppConst.AppDataFile));
+            appData = TinyhandSerializer.DeserializeFromUtf8<AppData>(data);
+        }
+        catch
+        {
+            loadError = true;
+        }
+
+        if (appData == null)
+        {
+            appData = TinyhandSerializer.Reconstruct<AppData>();
+        }
+
+        appData.Settings.LoadError = loadError;
+
+        context.SetOptions(appData);
+        context.SetOptions(appData.Settings);
     }
 }

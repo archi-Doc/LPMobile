@@ -4,9 +4,8 @@ using Tinyhand;
 
 namespace LPMobile;
 
-[TinyhandObject]
+[TinyhandObject(ImplicitKeyAsName = true)]
 public partial class AppData
 {// Application Data
-    [Key(0)]
     public AppSettings Settings { get; set; } = default!;
 }

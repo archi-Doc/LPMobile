@@ -4,19 +4,15 @@ using Tinyhand;
 
 namespace LPMobile;
 
-[TinyhandObject]
+[TinyhandObject(ImplicitKeyAsName = true)]
 public partial class AppSettings : ITinyhandSerializationCallback
 {// Application Settings
-    [Key(0)]
     public bool LoadError { get; set; } // True if a load error occured.
 
-    // [Key(1)]
     // public DipWindowPlacement WindowPlacement { get; set; } = default!;
 
-    [Key(2)]
     public string Culture { get; set; } = AppConst.DefaultCulture; // Default culture
 
-    [Key(3)]
     public double DisplayScaling { get; set; } = 1.0d; // Display Scaling
 
     // [Key(4)]
