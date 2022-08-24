@@ -3,6 +3,7 @@
 using LPMobile.Views;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Tinyhand;
 using Windows.Graphics;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -64,7 +65,7 @@ public partial class App : MauiWinUIApplication
                 }
             };
 
-            appWindow.Title = AppInfo.Current.Name;
+            appWindow.Title = HashedString.GetOrAlternative(Hashed.App.Name, AppInfo.Current.Name);
             /*if (MauiProgram.ServiceProvider.GetService<ViewServiceImpl>() is { } viewService)
             {
                 viewService.SetTitleDelegate(() => appWindow.Title, x => appWindow.Title = x);

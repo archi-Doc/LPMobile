@@ -9,6 +9,7 @@ global using Arc.Threading;
 global using LP;
 global using Netsphere;
 using Arc.Unit;
+using LP.Data;
 using LPMobile.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Tinyhand;
@@ -19,18 +20,39 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        // Prepare
-        Prepare();
-
         // UnitBuilder
-        var builder = new NetControl.Builder().Configure(context =>
-        {
-            context.AddSingleton<App>();
-            context.Services.AddSingleton<Views.IViewService, Views.ViewServiceImpl>();
-            context.AddSingleton<Views.AppShell>();
-            context.AddSingleton<Views.MainPage>();
-            context.AddSingleton<Views.SettingsPage>();
-        });
+        var builder = new NetControl.Builder()
+            .Preload(context =>
+            {
+                context.RootDirectory = FileSystem.Current.AppDataDirectory;
+                context.DataDirectory = FileSystem.Current.AppDataDirectory;
+
+                LoadStrings(context);
+                LoadData(context);
+            })
+            .Configure(context =>
+            {
+                // App
+                context.AddSingleton<App>();
+                context.AddSingleton<AppData>();
+                context.AddSingleton<AppSettings>();
+
+                // Views
+                context.Services.AddSingleton<Views.IViewService, Views.ViewServiceImpl>();
+                context.AddSingleton<Views.AppShell>();
+                context.AddSingleton<Views.MainPage>();
+                context.AddSingleton<Views.SettingsPage>();
+            })
+            .SetupOptions<FileLoggerOptions>((context, options) =>
+            {// FileLoggerOptions
+                var logfile = "Logs/Log.txt";
+                options.Path = Path.Combine(context.DataDirectory, logfile);
+                options.MaxLogCapacity = 20;
+            })
+            .SetupOptions<ConsoleLoggerOptions>((context, options) =>
+            {// ConsoleLoggerOptions
+                options.Formatter.EnableColor = true;
+            });
 
         // Maui Builder
         var mauiBuilder = MauiApp.CreateBuilder();
@@ -58,7 +80,7 @@ public static class MauiProgram
 
     public static IServiceProvider ServiceProvider { get; private set; } = default!;
 
-    private static void Prepare()
+    private static void LoadStrings(IUnitPreloadContext context)
     {
         // HashedString
         try
@@ -73,5 +95,9 @@ public static class MauiProgram
         catch
         {
         }
+    }
+
+    private static void LoadData(IUnitPreloadContext context)
+    {
     }
 }
