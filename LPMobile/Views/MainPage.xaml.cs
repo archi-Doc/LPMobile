@@ -83,6 +83,6 @@ public partial class MainPage : ContentPage
 
     private void ContentPage_Appearing(object sender, EventArgs e)
     {
-        this.
+        // this.
     }
 }
