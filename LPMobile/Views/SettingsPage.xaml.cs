@@ -14,6 +14,11 @@ public partial class SettingsPage : ContentPage
         this.viewService = viewService;
     }
 
+    public void OnTapGestureRecognizerTapped(object sender, EventArgs args)
+    {
+        // Handle the tap
+    }
+
     private async void OnExitButtonClicked(object sender, EventArgs e)
     {
         await this.viewService.ExitAsync(true);

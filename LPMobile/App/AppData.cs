@@ -7,5 +7,8 @@ namespace LPMobile;
 [TinyhandObject(ImplicitKeyAsName = true)]
 public partial class AppData
 {// Application Data
+    [IgnoreMember]
+    public bool LoadError { get; set; } // True if a loading error occured.
+
     public AppSettings Settings { get; set; } = default!;
 }

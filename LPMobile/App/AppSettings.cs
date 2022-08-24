@@ -7,11 +7,11 @@ namespace LPMobile;
 [TinyhandObject(ImplicitKeyAsName = true)]
 public partial class AppSettings : ITinyhandSerializationCallback
 {// Application Settings
-    public bool LoadError { get; set; } // True if a load error occured.
-
     // public DipWindowPlacement WindowPlacement { get; set; } = default!;
 
     public string Culture { get; set; } = AppConst.DefaultCulture; // Default culture
+
+    public AppWindow AppWindow { get; set; } = default!;
 
     public int WindowX { get; set; }
 

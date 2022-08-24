@@ -55,7 +55,7 @@ public partial class App : MauiWinUIApplication
             var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
 
             var appData = handler.MauiContext?.Services.GetService<AppData>();
-            if (appData?.Settings.LoadError == false)
+            if (appData?.LoadError == false)
             {
                 RectInt32 r = default;
                 r.X = appData.Settings.WindowX;

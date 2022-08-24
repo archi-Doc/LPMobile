@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:LPMobile.Views"
              x:Class="LPMobile.Views.SettingsPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="True">
     <!--Hide Navigation Bar-->
     <VerticalStackLayout>
 
@@ -24,7 +24,11 @@
                 <FormattedString>
                     <Span Text="XAML中で" />
                     <Span Text="色を付けたり" TextColor="Red" />
-                    <Span Text="できます。" />
+                    <Span Text="できます。">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped" />
+                        </Span.GestureRecognizers>
+                    </Span>
                     <local:HyperlinkSpan Text="here------"
                                          Url="https://docs.microsoft.com/dotnet/" />
                 </FormattedString>

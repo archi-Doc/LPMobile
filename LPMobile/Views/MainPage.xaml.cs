@@ -72,29 +72,11 @@ public partial class MainPage : ContentPage
     private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
         // this.Scale *= 1.2;
-        await Shell.Current.GoToAsync("//settings");
+        await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
     }
 
     private IViewService viewService;
     private ILogger<MainPage> logger;
     private NetControl netControl;
     private int count;
-
-    private void ContentPage_Appearing(object sender, EventArgs e)
-    {
-#if WINDOWS
-        /*try
-        {
-            if (this.GetParentWindow().Handler?.PlatformView is { } nativeWindow)
-            {
-                IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
-                Microsoft.UI.WindowId windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
-                Microsoft.UI.Windowing.AppWindow appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            }
-        }
-        catch
-        {
-        }*/
-#endif
-    }
 }

@@ -2,10 +2,12 @@
 
 namespace LPMobile.Views;
 
+/// <summary>
+/// Currently, this is not working properly.
+/// </summary>
 public class HyperlinkSpan : Span
 {
-    public static readonly BindableProperty UrlProperty =
-        BindableProperty.Create(nameof(Url), typeof(string), typeof(HyperlinkSpan), null);
+    public static readonly BindableProperty UrlProperty = BindableProperty.Create(nameof(Url), typeof(string), typeof(HyperlinkSpan), null);
 
     public string Url
     {
@@ -23,10 +25,5 @@ public class HyperlinkSpan : Span
         recognizer.Command = command;
         // recognizer.Tapped += (sender, args) => { command.Execute(null); };
         this.GestureRecognizers.Add(recognizer);
-    }
-
-    private void Recognizer_Tapped(object? sender, EventArgs e)
-    {
-        throw new NotImplementedException();
     }
 }

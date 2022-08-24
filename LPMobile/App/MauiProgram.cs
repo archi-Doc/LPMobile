@@ -115,7 +115,7 @@ public static class MauiProgram
             appData = TinyhandSerializer.Reconstruct<AppData>();
         }
 
-        appData.Settings.LoadError = loadError;
+        appData.LoadError = loadError;
 
         context.SetOptions(appData);
         context.SetOptions(appData.Settings);
