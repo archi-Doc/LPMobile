@@ -13,6 +13,14 @@ public partial class AppSettings : ITinyhandSerializationCallback
 
     public string Culture { get; set; } = AppConst.DefaultCulture; // Default culture
 
+    public int WindowX { get; set; }
+
+    public int WindowY { get; set; }
+
+    public int WindowWidth { get; set; }
+
+    public int WindowHeight { get; set; }
+
     public double DisplayScaling { get; set; } = 1.0d; // Display Scaling
 
     // [Key(4)]

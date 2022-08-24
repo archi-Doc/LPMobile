@@ -5,6 +5,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Tinyhand;
 using Windows.Graphics;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -44,8 +45,6 @@ public partial class App : MauiWinUIApplication
 
         this.InitializeComponent();
 
-        int windowWidth = 900;
-        int windowHeight = 600;
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
         {
             // var mauiWindow = handler.VirtualView;
@@ -54,7 +53,18 @@ public partial class App : MauiWinUIApplication
             var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
             var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(windowHandle);
             var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
-            appWindow.Resize(new SizeInt32(windowWidth, windowHeight));
+
+            var appData = handler.MauiContext?.Services.GetService<AppData>();
+            if (appData?.Settings.LoadError == false)
+            {
+                RectInt32 r = default;
+                r.X = appData.Settings.WindowX;
+                r.Y = appData.Settings.WindowY;
+                r.Width = appData.Settings.WindowWidth;
+                r.Height = appData.Settings.WindowHeight;
+                appWindow.MoveAndResize(r);
+                // ApplicationData.Current.LocalSettings.Values.
+            }
 
             appWindow.Closing += async (s, e) =>
             {
@@ -62,6 +72,15 @@ public partial class App : MauiWinUIApplication
                 {
                     e.Cancel = true;
                     await viewService.ExitAsync(true);
+                }
+
+                var appSettings = handler.MauiContext?.Services.GetService<AppSettings>();
+                if (appSettings != null)
+                {
+                    appSettings.WindowX = s.Position.X;
+                    appSettings.WindowY = s.Position.Y;
+                    appSettings.WindowWidth = s.Size.Width;
+                    appSettings.WindowHeight = s.Size.Height;
                 }
             };
 
