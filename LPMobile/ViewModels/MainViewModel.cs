@@ -1,9 +1,9 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using System.Windows.Input;
-using Arc.Mvvm;
 using LPMobile.Models;
 using LPMobile.Views;
+using Microsoft.Maui.Controls;
 using ValueLink;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
@@ -54,15 +54,10 @@ public partial class MainViewModel
     {
         get
         {
-            return this.exitCommand ??= new DelegateCommand(() =>
+            return this.exitCommand ??= new Command(async () =>
             {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                Task.Run(async () =>
-                {
-                    await Task.Delay(1000);
-                    await this.viewService.ExitAsync(true);
-                });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                await Task.Delay(1000);
+                await this.viewService.ExitAsync(true);
             });
         }
     }
@@ -73,7 +68,7 @@ public partial class MainViewModel
     {
         get
         {
-            return this.commandAddItem ??= new DelegateCommand(() =>
+            return this.commandAddItem ??= new Command(() =>
             {
                 if (this.TestGoshujin.QueueChain.Count >= 5)
                 {// Limits the number of objects.
@@ -94,7 +89,7 @@ public partial class MainViewModel
     {
         get
         {
-            return this.commandClearItem ??= new DelegateCommand(() =>
+            return this.commandClearItem ??= new Command(() =>
             {
                 this.TestGoshujin.Clear();
             });
@@ -107,7 +102,7 @@ public partial class MainViewModel
     {
         get
         {
-            return this.commandListViewIncrement ??= new DelegateCommand(() =>
+            return this.commandListViewIncrement ??= new Command(() =>
             {
                 foreach (var x in this.TestGoshujin.ObservableChain.Where(x => x.Selection == 2))
                 {
@@ -123,7 +118,7 @@ public partial class MainViewModel
     {
         get
         {
-            return this.commandListViewDecrement ??= new DelegateCommand(() =>
+            return this.commandListViewDecrement ??= new Command(() =>
             {
                 foreach (var x in this.TestGoshujin.ObservableChain.Where(x => x.Selection == 2))
                 {
@@ -145,7 +140,7 @@ public partial class MainViewModel
     {
         get
         {
-            return this.testCommand4 ??= new DelegateCommand(async () =>
+            return this.testCommand4 ??= new Command(async () =>
             { // execute
                 this.HideDialogButtonValue = !this.HideDialogButtonValue;
                 await Task.Delay(1000);

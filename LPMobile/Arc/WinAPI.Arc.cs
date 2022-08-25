@@ -19,39 +19,8 @@ using System.Windows;
 
 namespace Arc.WinAPI;
 
-public static class Extensions
-{
-    public static ushort ToLoWord(this IntPtr dword)
-    {
-        return (ushort)((uint)dword & 0xffff);
-    }
-
-    public static ushort ToHiWord(this IntPtr dword)
-    {
-        return (ushort)((uint)dword >> 16);
-    }
-}
-
-public static class Const
-{
-    public const string SHELL_IDLIST_STRING = "Shell IDList Array";
-}
-
 public partial class Methods
 {
-    [DllImport("shell32.dll")]
-    internal static extern IntPtr ILCombine(IntPtr pidl1, IntPtr pidl2);
-
-    [DllImport("shell32.dll")]
-    internal static extern void ILFree(IntPtr pidl);
-
-    [DllImport("shell32.dll")]
-    internal static extern uint SHGetNameFromIDList(IntPtr pidl, SIGDN sigdnName, [Out, MarshalAs(UnmanagedType.LPWStr)] out string str);
-
-    [DllImport("shell32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    internal static extern bool SHGetPathFromIDListW(IntPtr pidl, [MarshalAs(UnmanagedType.LPTStr)] StringBuilder pszPath);
-
     [DllImport("kernel32.dll")]
     internal static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 

@@ -9,7 +9,7 @@ using System.Windows.Input;
 #pragma warning disable CS8600
 #pragma warning disable SA1602 // Enumeration items should be documented
 
-namespace Arc.Mvvm;
+namespace Arc.Obsolete;
 
 /// <summary>
 /// Represents each node of nested properties expression and takes care of
