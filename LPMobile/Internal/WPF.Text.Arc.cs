@@ -46,29 +46,23 @@ public class C4Extension : IMarkupExtension<string>
         => (this as IMarkupExtension<string>).ProvideValue(serviceProvider);
 }
 
-public class C4BindingExtension : IMarkupExtension<string>
+[ContentProperty(nameof(Source))]
+public class C4BindingExtension : IMarkupExtension<BindingBase>
 { // Binding-based C4 markup extension. GUI thread only.
-    private string key;
+    public string Source { get; set; } = string.Empty;
 
     public C4BindingExtension()
     {
-        this.key = string.Empty;
     }
 
-    public C4BindingExtension(string key)
+    public BindingBase ProvideValue(IServiceProvider serviceProvider)
     {
-        this.key = key;
-    }
-
-    public string ProvideValue(IServiceProvider serviceProvider)
-    {
-        var b = new BindingExtension() { Source = new C4BindingSource(this.key) };
-        var v = ((IMarkupExtension<BindingBase>)b).ProvideValue(serviceProvider);
-        return v.ToString();
+        var b = new BindingExtension() { Source = new C4BindingSource(this.Source) };
+        return ((IMarkupExtension<BindingBase>)b).ProvideValue(serviceProvider);
     }
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-        => (this as IMarkupExtension<string>).ProvideValue(serviceProvider);
+        => (this as IMarkupExtension<BindingBase>).ProvideValue(serviceProvider);
 }
 
 public class C4BindingSource : INotifyPropertyChanged
@@ -91,7 +85,7 @@ public class C4BindingSource : INotifyPropertyChanged
     }
 }
 
-/*public class FormatExtension : MarkupExtension
+public class FormatExtension : IMarkupExtension<string>
 {
     private readonly object? format;
 #pragma warning disable SA1011 // Closing square brackets should be spaced correctly
@@ -125,7 +119,7 @@ public class C4BindingSource : INotifyPropertyChanged
         this.extensionArgs = args;
     }
 
-    public override object ProvideValue(IServiceProvider serviceProvider)
+    public override string ProvideValue(IServiceProvider serviceProvider)
     {
         if (this.format == null)
         {
@@ -197,7 +191,7 @@ public class C4BindingSource : INotifyPropertyChanged
             throw new NotSupportedException();
         }
     }
-}*/
+}
 
 public class GCCountChecker
 { // カウンタ付きガーベージコレクション差分チェック。カウンタが一定以上になった場合、ガーベージコレクションのカウンタをチェックし、カウンタが変更されていたら、trueを返す。

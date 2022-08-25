@@ -39,7 +39,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="{Arc:C4 App.Hello}"
+                Text="{Arc:C4Binding App.Hello}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
