@@ -40,6 +40,9 @@ public static class MauiProgram
                 context.AddSingleton<Views.AppShell>();
                 context.AddSingleton<Views.MainPage>();
                 context.AddSingleton<Views.SettingsPage>();
+
+                // ViewModels
+                context.AddSingleton<ViewModels.MainViewModel>();
             })
             .SetupOptions<FileLoggerOptions>((context, options) =>
             {// FileLoggerOptions

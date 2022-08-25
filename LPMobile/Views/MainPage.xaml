@@ -11,10 +11,19 @@
             Padding="30,0"
             VerticalOptions="Center">
 
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <!--Binding UpdateSourceTrigger ...-->
+                <Entry Text="{Binding Number1}" WidthRequest="100" />
+                <Label Text="+" Margin="5" />
+                <Entry Text="{Binding Number2}" WidthRequest="100" />
+                <Label Text="=" Margin="5" />
+                <Entry Text="{Binding Number3Value}" WidthRequest="100" />
+            </HorizontalStackLayout>
+
             <Button
                 x:Name="ExitButton"
                 Text="Exit with confirmation"
-                Clicked="OnExitButtonClicked"
+                Command="{Binding ExitCommand}"
                 HorizontalOptions="Center" />
 
             <Button

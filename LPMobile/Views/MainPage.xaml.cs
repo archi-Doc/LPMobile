@@ -2,15 +2,16 @@
 
 using System.Diagnostics;
 using Arc.Unit;
+using LPMobile.ViewModels;
 
 namespace LPMobile.Views;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(IViewService viewService, ILogger<MainPage> logger, NetControl netControl)
+    public MainPage(MainViewModel vm, IViewService viewService, ILogger<MainPage> logger, NetControl netControl)
     {
         this.InitializeComponent();
-        // this.BindingContext = vm;
+        this.BindingContext = vm;
 
         this.viewService = viewService;
         this.logger = logger;
