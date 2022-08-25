@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using Arc.Views;
 using Arc.WinAPI;
 using LPMobile.Views;
 using Microsoft.UI;

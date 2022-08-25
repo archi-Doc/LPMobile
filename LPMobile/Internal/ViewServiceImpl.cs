@@ -2,7 +2,7 @@
 
 using Tinyhand;
 
-namespace LPMobile.Views;
+namespace Arc.Views;
 
 internal class ViewServiceImpl : IViewService
 {
@@ -98,7 +98,7 @@ internal class ViewServiceImpl : IViewService
     public void SwitchCulture(string culture)
     {
         HashedString.ChangeCulture(culture);
-        // Arc.WPF.C4Updater.C4Update();
+        Arc.Views.C4Updater.C4Update();
     }
 
     private double fontScale = 1.0d;

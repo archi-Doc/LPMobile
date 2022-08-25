@@ -1,6 +1,7 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using Arc.Unit;
+using Arc.Views;
 using LPMobile.Views;
 using Tinyhand;
 

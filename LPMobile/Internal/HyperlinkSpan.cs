@@ -1,6 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-namespace LPMobile.Views;
+namespace Arc.Views;
 
 /// <summary>
 /// Currently, this is not working properly.

@@ -1,8 +1,8 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using System.Windows.Input;
+using Arc.Views;
 using LPMobile.Models;
-using LPMobile.Views;
 using Microsoft.Maui.Controls;
 using ValueLink;
 

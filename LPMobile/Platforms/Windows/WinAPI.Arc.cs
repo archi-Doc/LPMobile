@@ -2,12 +2,10 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
+using Tinyhand;
 
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
 #pragma warning disable SA1201 // Elements should appear in the correct order
 #pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
 #pragma warning disable SA1310 // Field names should not contain underscore
@@ -15,7 +13,6 @@ using System.Windows;
 #pragma warning disable SA1601 // Partial elements should be documented
 #pragma warning disable SA1602 // Enumeration items should be documented
 #pragma warning disable SA1611 // Element parameters should be documented
-#pragma warning disable SA1649 // File name should match first type name
 
 namespace Arc.WinAPI;
 
@@ -423,6 +420,44 @@ public enum MonitorDpiType
     AngularDpi = 1,
     RawDpi = 2,
     Default = EffectiveDpi,
+}
+
+[TinyhandObject]
+[StructLayout(LayoutKind.Sequential)]
+public partial struct POINT
+{
+    [Key(0)]
+    public int X;
+    [Key(1)]
+    public int Y;
+
+    public POINT(int x, int y)
+    {
+        this.X = x;
+        this.Y = y;
+    }
+}
+
+[TinyhandObject]
+[StructLayout(LayoutKind.Sequential)]
+public partial struct RECT
+{
+    [Key(0)]
+    public int Left;
+    [Key(1)]
+    public int Top;
+    [Key(2)]
+    public int Right;
+    [Key(3)]
+    public int Bottom;
+
+    public RECT(int left, int top, int right, int bottom)
+    {
+        this.Left = left;
+        this.Top = top;
+        this.Right = right;
+        this.Bottom = bottom;
+    }
 }
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]

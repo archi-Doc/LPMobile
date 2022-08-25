@@ -2,7 +2,9 @@
 
 using System.Diagnostics;
 using Arc.Unit;
+using Arc.Views;
 using LPMobile.ViewModels;
+using Tinyhand;
 
 namespace LPMobile.Views;
 
@@ -70,9 +72,18 @@ public partial class MainPage : ContentPage
 
     private async void OnSettingsButtonClicked(object sender, EventArgs e)
     {
-        var scale = this.viewService.GetFontScale();
+        /*var scale = this.viewService.GetFontScale();
         scale *= 1.2d;
-        this.viewService.SetFontScale(scale);
+        this.viewService.SetFontScale(scale);*/
+
+        if (HashedString.CurrentCultureName == "en-US")
+        {
+            this.viewService.SwitchCulture("ja");
+        }
+        else
+        {
+            this.viewService.SwitchCulture("en");
+        }
 
         // await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
     }

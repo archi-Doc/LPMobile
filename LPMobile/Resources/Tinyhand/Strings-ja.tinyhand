@@ -5,6 +5,7 @@ Test2 = null
 
 App = {
     Name = "StandardApp" // Name
+    Hello = "こんにちは！"
     Description = "説明文"
     DateTime = "MM/dd H:mm:ss"
 }

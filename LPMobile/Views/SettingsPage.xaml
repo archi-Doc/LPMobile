@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:LPMobile.Views"
+             xmlns:Arc="clr-namespace:Arc.Views"
              x:Class="LPMobile.Views.SettingsPage"
              Shell.NavBarIsVisible="True">
     <!--Hide Navigation Bar-->
@@ -25,7 +25,7 @@
                     <Span Text="XAML中で" />
                     <Span Text="色を付けたり" TextColor="Red" />
                     <Span Text="できます。" />
-                    <local:HyperlinkSpan Text="here------"
+                    <Arc:HyperlinkSpan Text="here------"
                                          Url="https://docs.microsoft.com/dotnet/" />
                 </FormattedString>
             </Label.FormattedText>

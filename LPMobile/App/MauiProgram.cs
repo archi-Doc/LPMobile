@@ -9,6 +9,7 @@ global using Arc.Threading;
 global using LP;
 global using Netsphere;
 using Arc.Unit;
+using Arc.Views;
 using LP.Data;
 using LPMobile.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,7 @@ public static class MauiProgram
                 context.AddSingleton<App>();
 
                 // Views
-                context.Services.AddSingleton<Views.IViewService, Views.ViewServiceImpl>();
+                context.Services.AddSingleton<IViewService, ViewServiceImpl>();
                 context.AddSingleton<Views.AppShell>();
                 context.AddSingleton<Views.MainPage>();
                 context.AddSingleton<Views.SettingsPage>();
