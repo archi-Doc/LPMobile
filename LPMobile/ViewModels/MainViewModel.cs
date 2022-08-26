@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
@@ -153,6 +154,56 @@ public partial class MainViewModel
             }
 
             this.viewService.SwitchCulture(this.appData.Settings.Culture);
+        });
+    }
+
+    private ICommand? settingsCommand;
+
+    public ICommand SettingsCommand
+    {
+        get => this.settingsCommand ??= new Command(async () =>
+        {
+            await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
+        });
+    }
+
+    private ICommand? openDataDirectoryCommand;
+
+    public ICommand OpenDataDirectoryCommand
+    {
+        get => this.openDataDirectoryCommand ??= new Command(async () =>
+        {
+#if WINDOWS
+        System.Diagnostics.Process.Start("Explorer.exe", FileSystem.Current.AppDataDirectory);
+#endif
+        });
+    }
+
+    private ICommand? pingCommand;
+
+    public ICommand PingCommand
+    {
+        get => this.pingCommand ??= new Command(async () =>
+        {
+            /*
+            var node = this.TextEntry.Text ?? string.Empty;
+            if (LP.Subcommands.SubcommandService.TryParseNodeAddress(this.logger, node, out var nodeAddress))
+            {
+                using (var terminal = this.netControl.Terminal.Create(nodeAddress))
+                {
+                    var p = new PacketPing("mobile");
+                    var sw = Stopwatch.StartNew();
+                    var t = terminal.SendAndReceiveAsync<PacketPing, PacketPingResponse>(p);
+                    if (t.Result.Result == NetResult.Success && t.Result.Value is { } response)
+                    {
+                        // this.TextLabel.Text = $"{response.ToString()}, {sw.ElapsedMilliseconds} ms";
+                    }
+                }
+            }*/
+
+            var scale = this.viewService.GetFontScale();
+            scale *= 1.2d;
+            this.viewService.SetFontScale(scale);
         });
     }
 

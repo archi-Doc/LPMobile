@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Arc="clr-namespace:Arc.Views"
-             x:Class="LPMobile.Views.MainPage"
-             Appearing="ContentPage_Appearing">
+             x:Class="LPMobile.Views.MainPage">
 
-    <ScrollView x:Name="Scroll1">
+    <HorizontalStackLayout>
+
         <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
+            Spacing="15"
+            Padding="20,0"
             VerticalOptions="Center">
 
             <Label
@@ -38,42 +38,34 @@
                 <Entry Text="{Binding Number3Value}" WidthRequest="100" />
             </HorizontalStackLayout>
 
-            <Button
-                x:Name="ExitButton"
-                Text="Exit with confirmation"
-                Command="{Binding ExitCommand}"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="OpenDataDirectoryButton"
-                Text="Open data directory"
-                Clicked="OnOpenDataDirectoryButtonClicked"
-                HorizontalOptions="Center" />
-
             <Entry
                 x:Name="TextEntry"
                 MaximumWidthRequest="300"
                 />
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="SettingsButton"
-                Text="Settings page"
-                Clicked="OnSettingsButtonClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                Text="{Arc:C4 Button.SwitchLanguage}"
-                Command="{Binding SwitchCultureCommand}"
-                HorizontalOptions="Center" />
-
         </VerticalStackLayout>
-    </ScrollView>
+
+        <ScrollView x:Name="Scroll1">
+            <VerticalStackLayout>
+
+                <Button Text="{Arc:C4 Button.Exit}"
+                    Command="{Binding ExitCommand}" />
+
+                <Button Text="{Arc:C4 Button.Settings}"
+                    Command="{Binding SettingsCommand}" />
+
+                <Button Text="{Arc:C4 Button.SwitchLanguage}"
+                        Command="{Binding SwitchCultureCommand}" />
+
+                <Button Text="{Arc:C4 Button.OpenDataDirectory}"
+                        Command="{Binding OpenDataDirectoryCommand}" />
+
+                <Button Text="{Arc:C4 Button.Ping}"
+                        Command="{Binding PingCommand}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </HorizontalStackLayout>
 
 </ContentPage>

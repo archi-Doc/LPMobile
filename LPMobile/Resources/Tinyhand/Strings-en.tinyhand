@@ -41,12 +41,15 @@ Language = {
 }
 
 Button = {
+    Exit = "Exit"
     Text = "Notification message"
     Settings = "Settings"
     DataFolder = "DataFolder"
     AddItem = "Add"
     ClearItem = "Clear"
     SwitchLanguage = "Switch language"
+    OpenDataDirectory = "Open data directory"
+    Ping = "Ping"
 }
 Tooltip = {
     Button = "This is a button."
