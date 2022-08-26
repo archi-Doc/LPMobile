@@ -3,21 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Arc="clr-namespace:Arc.Views"
              x:Class="LPMobile.Views.SettingsPage"
-             Shell.NavBarIsVisible="True">
+             Disappearing="ContentPage_Disappearing"
+             Shell.NavBarIsVisible="False">
     <!--Hide Navigation Bar-->
     <VerticalStackLayout>
 
-        <Label 
-            Text="Settings"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
-        <Button
-                x:Name="ExitButton"
-                Text="Exit with confirmation"
-                Clicked="OnExitButtonClicked"
-                HorizontalOptions="Center" />
-
+        <Entry Text="{Binding TestStringValue}" MaximumWidthRequest="200"/>
+        
         <Label
             x:Name="LicenseLabel">
             <Label.FormattedText>

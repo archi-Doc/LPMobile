@@ -44,6 +44,7 @@ public static class MauiProgram
 
                 // ViewModels
                 context.AddSingleton<ViewModels.MainViewModel>();
+                context.AddSingleton<ViewModels.SettingsViewModel>();
             })
             .SetupOptions<FileLoggerOptions>((context, options) =>
             {// FileLoggerOptions

@@ -1,11 +1,8 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System.Diagnostics;
 using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
-using Microsoft.Maui.Controls;
-using Tinyhand;
 using ValueLink;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order

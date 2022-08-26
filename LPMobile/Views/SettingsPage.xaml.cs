@@ -1,26 +1,22 @@
 // Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System.Diagnostics;
-using Arc.Views;
+using LPMobile.ViewModels;
 
 namespace LPMobile.Views;
 
 public partial class SettingsPage : ContentPage
 {
-    public SettingsPage(IViewService viewService)
+    public SettingsPage(SettingsViewModel vm)
     {
         this.InitializeComponent();
-
-        this.viewService = viewService;
+        this.BindingContext = vm;
+        this.viewModel = vm;
     }
 
-    private async void OnExitButtonClicked(object sender, EventArgs e)
+    private void ContentPage_Disappearing(object sender, EventArgs e)
     {
-        var scale = this.viewService.GetFontScale();
-        scale *= 1.2d;
-        this.viewService.SetFontScale(scale);
-        // await this.viewService.ExitAsync(true);
+        this.viewModel.Exit(true);
     }
 
-    private IViewService viewService;
+    private SettingsViewModel viewModel;
 }
