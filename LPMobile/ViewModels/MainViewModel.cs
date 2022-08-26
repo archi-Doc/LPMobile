@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
 using Microsoft.Maui.Controls;
+using Tinyhand;
 using ValueLink;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
@@ -133,6 +134,25 @@ public partial class MainViewModel
             this.Number4Value++;
 
             // this.TestCommand.RaiseCanExecuteChanged(); // ObservesProperty(() => this.CommandFlag)
+        });
+    }
+
+    private ICommand? switchCultureCommand;
+
+    public ICommand SwitchCultureCommand
+    {
+        get => this.switchCultureCommand ??= new Command(() =>
+        {
+            if (this.appData.Settings.Culture == "ja")
+            {
+                this.appData.Settings.Culture = "en";
+            }
+            else
+            {
+                this.appData.Settings.Culture = "ja";
+            }
+
+            this.viewService.SwitchCulture(this.appData.Settings.Culture);
         });
     }
 

@@ -46,6 +46,7 @@ Button = {
     DataFolder = "DataFolder"
     AddItem = "Add"
     ClearItem = "Clear"
+    SwitchLanguage = "Switch language"
 }
 Tooltip = {
     Button = "This is a button."

@@ -62,7 +62,7 @@ public partial class MainPage : ContentPage
                 var t = terminal.SendAndReceiveAsync<PacketPing, PacketPingResponse>(p);
                 if (t.Result.Result == NetResult.Success && t.Result.Value is { } response)
                 {
-                    this.TextLabel.Text = $"{response.ToString()}, {sw.ElapsedMilliseconds} ms";
+                    // this.TextLabel.Text = $"{response.ToString()}, {sw.ElapsedMilliseconds} ms";
                 }
             }
         }
@@ -75,15 +75,6 @@ public partial class MainPage : ContentPage
         /*var scale = this.viewService.GetFontScale();
         scale *= 1.2d;
         this.viewService.SetFontScale(scale);*/
-
-        if (HashedString.CurrentCultureName == "en-US")
-        {
-            this.viewService.SwitchCulture("ja");
-        }
-        else
-        {
-            this.viewService.SwitchCulture("en");
-        }
 
         // await Shell.Current.GoToAsync("//settings"); // "settings" is currently not supported.
     }

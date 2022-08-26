@@ -2,9 +2,9 @@
 
 using Tinyhand;
 
-namespace Arc.Views;
+namespace LPMobile;
 
-internal class ViewServiceImpl : IViewService
+internal class ViewServiceImpl : Arc.Views.IViewService
 {
     /*public Page CurrentPage
     {
@@ -32,7 +32,11 @@ internal class ViewServiceImpl : IViewService
             var page = Application.Current?.MainPage;
             if (confirmation && page != null)
             {
-                if (await page.DisplayAlert("Question?", "Would you like to exit", "Yes", "No") == false)
+                if (await page.DisplayAlert(
+                    HashedString.Get(Hashed.App.Name),
+                    HashedString.Get(Hashed.Dialog.Exit),
+                    HashedString.Get(Hashed.Dialog.Yes),
+                    HashedString.Get(Hashed.Dialog.No)) == false)
                 {
                     return;
                 }
@@ -97,8 +101,14 @@ internal class ViewServiceImpl : IViewService
 
     public void SwitchCulture(string culture)
     {
-        HashedString.ChangeCulture(culture);
-        Arc.Views.C4Updater.C4Update();
+        try
+        {
+            HashedString.ChangeCulture(culture);
+            Arc.Views.C4Updater.C4Update();
+        }
+        catch
+        {
+        }
     }
 
     private double fontScale = 1.0d;

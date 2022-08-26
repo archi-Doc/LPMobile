@@ -11,7 +11,7 @@ App = {
 }
 
 // dialog
-Dialog = 
+Dialog =
 {
     Ok = "O K"
     Cancel = "キャンセル"
@@ -46,6 +46,7 @@ Button = {
     DataFolder = "データフォルダ"
     AddItem = "追加"
     ClearItem = "クリア"
+    SwitchLanguage = "言語切り替え"
 }
 Tooltip = {
     Button = "ボタンです"
