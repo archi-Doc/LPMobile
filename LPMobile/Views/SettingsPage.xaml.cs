@@ -13,9 +13,14 @@ public partial class SettingsPage : ContentPage
         this.viewModel = vm;
     }
 
+    private void ContentPage_Appearing(object sender, EventArgs e)
+    {
+        this.viewModel.Appearing();
+    }
+
     private void ContentPage_Disappearing(object sender, EventArgs e)
     {
-        this.viewModel.Exit(true);
+        this.viewModel.Disappearing(true);
     }
 
     private SettingsViewModel viewModel;

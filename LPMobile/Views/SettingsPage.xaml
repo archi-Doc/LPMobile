@@ -3,10 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Arc="clr-namespace:Arc.Views"
              x:Class="LPMobile.Views.SettingsPage"
+             Appearing="ContentPage_Appearing"
              Disappearing="ContentPage_Disappearing"
              Shell.NavBarIsVisible="False">
     <!--Hide Navigation Bar-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Styles/Static.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <VerticalStackLayout>
+
+        <Grid HorizontalOptions="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="{Arc:C4 Settings.Language}" VerticalOptions="Center" />
+            <Picker Grid.Row="0" Grid.Column="1"  x:Name="LanguagePicker" ItemsSource="{Binding CultureListValue}" SelectedItem="{Binding CurrentCultureValue}"  VerticalOptions="Center" />
+
+            <Label Grid.Row="1" Grid.Column="0" Text="{Arc:C4 Settings.DisplayScaling}"  VerticalOptions="Center" />
+        </Grid>
 
         <Entry Text="{Binding TestStringValue}" MaximumWidthRequest="200"/>
         
