@@ -90,6 +90,16 @@ public partial class App : MauiWinUIApplication
                     window.Height = maxHeight;
                 }
 
+                if (window.Width < AppConst.MinWidth)
+                {
+                    window.Width = AppConst.MinWidth;
+                }
+
+                if (window.Height < AppConst.MinHeight)
+                {
+                    window.Height = AppConst.MinHeight;
+                }
+
                 var maxX = monitorInfo.rcWork.Right - window.Width;
                 if (window.X > maxX)
                 {
@@ -114,11 +124,12 @@ public partial class App : MauiWinUIApplication
                 }
             }
 
-            appWindow.Closing += async (s, e) =>
+            appWindow.Closing += async (sender, args) =>
             {
+                this.SetWindowSize(handler, sender);
                 if (MauiProgram.ServiceProvider.GetService<IViewService>() is { } viewService)
                 {
-                    e.Cancel = true;
+                    args.Cancel = true;
                     await viewService.ExitAsync(true);
                 }
             };
@@ -127,18 +138,7 @@ public partial class App : MauiWinUIApplication
             {
                 if (args.DidPositionChange || args.DidSizeChange)
                 {
-                    if (handler.MauiContext?.Services.GetService<AppSettings>() is { } appSettings &&
-                    sender.Presenter is OverlappedPresenter presenter)
-                    {
-                        appSettings.AppWindow.IsMaximized = presenter.State == OverlappedPresenterState.Maximized;
-                        if (!appSettings.AppWindow.IsMaximized)
-                        {
-                            appSettings.AppWindow.X = sender.Position.X;
-                            appSettings.AppWindow.Y = sender.Position.Y;
-                            appSettings.AppWindow.Width = sender.Size.Width;
-                            appSettings.AppWindow.Height = sender.Size.Height;
-                        }
-                    }
+                    this.SetWindowSize(handler, sender);
                 }
             };
 
@@ -147,6 +147,22 @@ public partial class App : MauiWinUIApplication
     }
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+    private void SetWindowSize(Microsoft.Maui.Handlers.IWindowHandler handler, Microsoft.UI.Windowing.AppWindow sender)
+    {
+        if (handler.MauiContext?.Services.GetService<AppSettings>() is { } appSettings &&
+                    sender.Presenter is OverlappedPresenter presenter)
+        {
+            appSettings.AppWindow.IsMaximized = presenter.State == OverlappedPresenterState.Maximized;
+            if (!appSettings.AppWindow.IsMaximized)
+            {
+                appSettings.AppWindow.X = sender.Position.X;
+                appSettings.AppWindow.Y = sender.Position.Y;
+                appSettings.AppWindow.Width = sender.Size.Width;
+                appSettings.AppWindow.Height = sender.Size.Height;
+            }
+        }
+    }
 
 #if WINDOWS
     private static Mutex? mutex;

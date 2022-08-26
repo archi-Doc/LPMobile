@@ -54,83 +54,68 @@ public partial class MainViewModel
 
     public ICommand ExitCommand
     {
-        get
+        get => this.exitCommand ??= new Command(async () =>
         {
-            return this.exitCommand ??= new Command(async () =>
-            {
-                await Task.Delay(1000);
-                await this.viewService.ExitAsync(true);
-            });
-        }
+            await Task.Delay(1000);
+            await this.viewService.ExitAsync(true);
+        });
     }
 
-    private ICommand? commandAddItem;
+    private ICommand? addItemCommand;
 
-    public ICommand CommandAddItem
+    public ICommand AddItemCommand
     {
-        get
+        get => this.addItemCommand ??= new Command(() =>
         {
-            return this.commandAddItem ??= new Command(() =>
-            {
-                if (this.TestGoshujin.QueueChain.Count >= 5)
-                {// Limits the number of objects.
-                    this.TestGoshujin.QueueChain.Peek().Goshujin = null;
-                }
+            if (this.TestGoshujin.QueueChain.Count >= 5)
+            {// Limits the number of objects.
+                this.TestGoshujin.QueueChain.Peek().Goshujin = null;
+            }
 
-                var last = this.TestGoshujin.IdChain.Last;
-                var id = last == null ? 0 : last.IdValue + 1;
-                var item = new TestItem(id, DateTime.UtcNow);
-                item.Goshujin = this.TestGoshujin;
-            });
-        }
+            var last = this.TestGoshujin.IdChain.Last;
+            var id = last == null ? 0 : last.IdValue + 1;
+            var item = new TestItem(id, DateTime.UtcNow);
+            item.Goshujin = this.TestGoshujin;
+        });
     }
 
-    private ICommand? commandClearItem;
+    private ICommand? clearItemCommand;
 
-    public ICommand CommandClearItem
+    public ICommand ClearItemCommand
     {
-        get
+        get => this.clearItemCommand ??= new Command(() =>
         {
-            return this.commandClearItem ??= new Command(() =>
-            {
-                this.TestGoshujin.Clear();
-            });
-        }
+            this.TestGoshujin.Clear();
+        });
     }
 
-    private ICommand? commandListViewIncrement;
+    private ICommand? incrementListViewCommand;
 
-    public ICommand CommandListViewIncrement
+    public ICommand IncrementListViewCommand
     {
-        get
+        get => this.incrementListViewCommand ??= new Command(() =>
         {
-            return this.commandListViewIncrement ??= new Command(() =>
+            foreach (var x in this.TestGoshujin.ObservableChain.Where(x => x.Selection == 2))
             {
-                foreach (var x in this.TestGoshujin.ObservableChain.Where(x => x.Selection == 2))
+                x.IdValue++;
+            }
+        });
+    }
+
+    private ICommand? decrementListViewCommand;
+
+    public ICommand DecrementListViewCommand
+    {
+        get => this.decrementListViewCommand ??= new Command(() =>
+        {
+            foreach (var x in this.TestGoshujin.ObservableChain.Where(x => x.Selection == 2))
+            {
+                if (x.IdValue > 0)
                 {
-                    x.IdValue++;
+                    x.IdValue--;
                 }
-            });
-        }
-    }
-
-    private ICommand? commandListViewDecrement;
-
-    public ICommand CommandListViewDecrement
-    {
-        get
-        {
-            return this.commandListViewDecrement ??= new Command(() =>
-            {
-                foreach (var x in this.TestGoshujin.ObservableChain.Where(x => x.Selection == 2))
-                {
-                    if (x.IdValue > 0)
-                    {
-                        x.IdValue--;
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     [Link(AutoNotify = true)]
@@ -140,21 +125,16 @@ public partial class MainViewModel
 
     public ICommand TestCommand4
     {
-        get
-        {
-            return this.testCommand4 ??= new Command(async () =>
-            { // execute
-                this.HideDialogButtonValue = !this.HideDialogButtonValue;
-                await Task.Delay(1000);
-                this.CommandFlagValue = this.CommandFlagValue ? false : true;
-                this.Number4Value++;
+        get => this.testCommand4 ??= new Command(async () =>
+        { // execute
+            this.HideDialogButtonValue = !this.HideDialogButtonValue;
+            await Task.Delay(1000);
+            this.CommandFlagValue = this.CommandFlagValue ? false : true;
+            this.Number4Value++;
 
-                // this.TestCommand.RaiseCanExecuteChanged(); // ObservesProperty(() => this.CommandFlag)
-            });
-        }
+            // this.TestCommand.RaiseCanExecuteChanged(); // ObservesProperty(() => this.CommandFlag)
+        });
     }
-
-    public DateTime Time1 { get; private set; } = DateTime.Now;
 
     public MainViewModel(IViewService viewService, AppData appData)
     {
