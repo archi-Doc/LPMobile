@@ -15,6 +15,8 @@ public partial class MainViewModel
 {
     public TestItem.GoshujinClass TestGoshujin { get; }
 
+    public DateTime CurrentTime { get; private set; } = DateTime.Now;
+
     [Link(AutoNotify = true)]
     private bool hideDialogButton;
 

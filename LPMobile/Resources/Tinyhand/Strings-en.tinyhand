@@ -7,7 +7,7 @@ App = {
     Name = "StandardApp" // Name
     Hello = "Hello, World!"
     Description = "Standard application"
-    DateTime = "MM/dd H:mm:ss"
+    TimeFormat = "Current time is {0:MM/dd H:mm:ss}."
 }
 
 // dialog

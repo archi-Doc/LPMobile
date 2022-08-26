@@ -90,65 +90,29 @@ public class C4BindingSource : INotifyPropertyChanged
     // public override string ToString() => HashedString.GetOrIdentifier(this.key);
 }
 
+[ContentProperty(nameof(Bindings))]
 public class FormatExtension : IMarkupExtension<BindingBase>
 {
-    private readonly object? format;
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
-    private readonly object[]? extensionArgs;
-#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
+    public IList<BindingBase> Bindings
+    {
+        get => this.bindings ??= new List<BindingBase>();
+        set => this.bindings = value;
+    }
+
+    private IList<BindingBase>? bindings;
     private static IMultiValueConverter converter = new BoundFormatConverter();
 
-    public FormatExtension(object format, object arg1)
-        : this(format, new[] { arg1 })
+    public FormatExtension()
     {
-    }
-
-    public FormatExtension(object format, object arg1, object arg2)
-        : this(format, new[] { arg1, arg2 })
-    {
-    }
-
-    public FormatExtension(object format, object arg1, object arg2, object arg3)
-        : this(format, new[] { arg1, arg2, arg3 })
-    {
-    }
-
-    public FormatExtension(object format, object[] args)
-    {
-        if (!(format is string || format is BindingBase))
-        {
-            return;
-        }
-
-        this.format = format;
-        this.extensionArgs = args;
     }
 
     public BindingBase ProvideValue(IServiceProvider serviceProvider)
     {
-        if (this.format == null)
-        {
-            return default!;
-        }
-
         var mb = new MultiBinding() { Mode = BindingMode.OneWay };
-        if (this.format is BindingBase)
+        mb.Converter = converter;
+        foreach (var x in this.Bindings)
         {
-            mb.Bindings.Add((BindingBase)this.format);
-            mb.Converter = converter;
-        }
-        else
-        {
-            mb.StringFormat = this.format.ToString();
-        }
-
-        if (this.extensionArgs != null)
-        {
-            foreach (var arg in this.extensionArgs)
-            {
-                var binding = (arg as BindingBase) ?? new Binding() { Source = arg };
-                mb.Bindings.Add(binding);
-            }
+            mb.Bindings.Add(x);
         }
 
         return mb;

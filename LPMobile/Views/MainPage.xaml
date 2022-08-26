@@ -39,9 +39,15 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="{Arc:C4Binding App.Hello}"
+                Text="{Arc:C4 App.Hello}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="{Arc:Format {Arc:C4Binding App.TimeFormat}, {Binding CurrentTime}}"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="16"
                 HorizontalOptions="Center" />
 
             <Label
