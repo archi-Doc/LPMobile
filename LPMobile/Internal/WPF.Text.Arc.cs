@@ -57,8 +57,11 @@ public class C4BindingExtension : IMarkupExtension<BindingBase>
 
     public BindingBase ProvideValue(IServiceProvider serviceProvider)
     {
-        var b = new BindingExtension() { Source = new C4BindingSource(this.Source) };
-        return ((IMarkupExtension<BindingBase>)b).ProvideValue(serviceProvider);
+        var b = new Binding() { Source = new C4BindingSource(this.Source) };
+        return b;
+
+        // var b = new BindingExtension() { Source = new C4BindingSource(this.Source) };
+        // return ((IMarkupExtension<BindingBase>)b).ProvideValue(serviceProvider);
     }
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
@@ -85,7 +88,7 @@ public class C4BindingSource : INotifyPropertyChanged
     }
 }
 
-public class FormatExtension : IMarkupExtension<string>
+public class FormatExtension : IMarkupExtension<BindingBase>
 {
     private readonly object? format;
 #pragma warning disable SA1011 // Closing square brackets should be spaced correctly
@@ -119,11 +122,11 @@ public class FormatExtension : IMarkupExtension<string>
         this.extensionArgs = args;
     }
 
-    public override string ProvideValue(IServiceProvider serviceProvider)
+    public BindingBase ProvideValue(IServiceProvider serviceProvider)
     {
         if (this.format == null)
         {
-            return "Format";
+            return default!;
         }
 
         var mb = new MultiBinding() { Mode = BindingMode.OneWay };
@@ -146,8 +149,11 @@ public class FormatExtension : IMarkupExtension<string>
             }
         }
 
-        return mb.ProvideValue(serviceProvider);
+        return mb;
     }
+
+    object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
+        => (this as IMarkupExtension<BindingBase>).ProvideValue(serviceProvider);
 
     public class BoundFormatConverter : IMultiValueConverter
     {
