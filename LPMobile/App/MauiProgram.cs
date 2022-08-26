@@ -123,5 +123,13 @@ public static class MauiProgram
 
         context.SetOptions(appData);
         context.SetOptions(appData.Settings);
+
+        try
+        {
+            HashedString.ChangeCulture(appData.Settings.Culture);
+        }
+        catch
+        {
+        }
     }
 }

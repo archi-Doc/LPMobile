@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System.ComponentModel;
 using LPMobile.Models;
 using Tinyhand;
 
@@ -8,7 +9,7 @@ namespace LPMobile;
 [TinyhandObject(ImplicitKeyAsName = true)]
 public partial class AppSettings : ITinyhandSerializationCallback
 {
-    public string Culture { get; set; } = AppConst.DefaultCulture; // Default culture
+    public string Culture { get; set; } = default!;
 
     public AppWindow AppWindow { get; set; } = default!;
 
