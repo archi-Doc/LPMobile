@@ -59,9 +59,6 @@ public class C4BindingExtension : IMarkupExtension<BindingBase>
     {
         var b = new Binding() { Path = "Value", Source = new C4BindingSource(this.Source) };
         return b;
-
-        // var b = new BindingExtension() { Source = new C4BindingSource(this.Source) };
-        // return ((IMarkupExtension<BindingBase>)b).ProvideValue(serviceProvider);
     }
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
@@ -70,8 +67,6 @@ public class C4BindingExtension : IMarkupExtension<BindingBase>
 
 public class C4BindingSource : INotifyPropertyChanged
 {
-    private string key;
-
     public C4BindingSource(string key)
     {
         this.key = key;
@@ -87,20 +82,19 @@ public class C4BindingSource : INotifyPropertyChanged
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
     }
 
-    // public override string ToString() => HashedString.GetOrIdentifier(this.key);
+    private string key;
 }
 
 [ContentProperty(nameof(Bindings))]
 public class FormatExtension : IMarkupExtension<BindingBase>
 {
+    private static IMultiValueConverter converter = new BoundFormatConverter();
+
     public IList<BindingBase> Bindings
     {
         get => this.bindings ??= new List<BindingBase>();
         set => this.bindings = value;
     }
-
-    private IList<BindingBase>? bindings;
-    private static IMultiValueConverter converter = new BoundFormatConverter();
 
     public FormatExtension()
     {
@@ -163,6 +157,8 @@ public class FormatExtension : IMarkupExtension<BindingBase>
             throw new NotSupportedException();
         }
     }
+
+    private IList<BindingBase>? bindings;
 }
 
 public class GCCountChecker
