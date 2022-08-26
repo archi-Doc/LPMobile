@@ -3,6 +3,7 @@
 using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
+using Tinyhand;
 using ValueLink;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
@@ -13,6 +14,8 @@ namespace LPMobile.ViewModels;
 public partial class SettingsViewModel
 {
     public List<int> CultureList { get; private set; } = new() { 0, 1, };
+
+    public string AppLicense { get; }
 
     [Link(AutoNotify = true)]
     private string testString = string.Empty;
@@ -38,6 +41,8 @@ public partial class SettingsViewModel
     {
         this.viewService = viewService;
         this.appData = appData;
+
+        this.AppLicense = HashedString.Get("App.License");
     }
 
     public void OnNavigatedTo()

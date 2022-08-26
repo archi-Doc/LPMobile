@@ -28,6 +28,7 @@ Folder = "Settings folder"
 OpenFolder = "Open"
 Language = "Language"
 DisplayScaling = "Scaling"
+License = "License"
 }
 
 // other

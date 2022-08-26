@@ -91,9 +91,9 @@ public static class MauiProgram
             HashedString.SetDefaultCulture(AppConst.DefaultCulture); // default culture
 
             var asm = System.Reflection.Assembly.GetExecutingAssembly();
-            HashedString.LoadAssembly("ja", asm, "Resources.Tinyhand.License.tinyhand");
-            HashedString.LoadAssembly("ja", asm, "Resources.Tinyhand.Strings-ja.tinyhand");
+            HashedString.LoadAssembly("en", asm, "Resources.Tinyhand.License.tinyhand");
             HashedString.LoadAssembly("en", asm, "Resources.Tinyhand.Strings-en.tinyhand");
+            HashedString.LoadAssembly("ja", asm, "Resources.Tinyhand.Strings-ja.tinyhand");
         }
         catch
         {

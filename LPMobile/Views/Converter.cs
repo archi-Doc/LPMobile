@@ -10,45 +10,31 @@ public static class Converters
 {
     public static int CultureStringToIndex(string culture) => culture switch
     {
-        "ja" => 0,
-        "en" => 1,
+        "en" => 0,
+        "ja" => 1,
         _ => 0,
     };
 
     public static string CultureIndexToString(int index) => index switch
     {
-        0 => "ja",
-        1 => "en",
-        _ => "ja",
+        0 => "en",
+        1 => "ja",
+        _ => "en",
     };
 
     public static ulong CultureIndexToId(int index) => index switch
     {
-        0 => LPMobile.Hashed.Language.Ja,
-        1 => LPMobile.Hashed.Language.En,
-        _ => LPMobile.Hashed.Language.Ja,
+        0 => LPMobile.Hashed.Language.En,
+        1 => LPMobile.Hashed.Language.Ja,
+        _ => LPMobile.Hashed.Language.En,
     };
 
     public static ulong CultureStringToId(string culture) => culture switch
     {
-        "ja" => LPMobile.Hashed.Language.Ja,
         "en" => LPMobile.Hashed.Language.En,
+        "ja" => LPMobile.Hashed.Language.Ja,
         _ => 0,
     };
-
-    public static string CultureIdToString(ulong id)
-    {
-        if (id == LPMobile.Hashed.Language.Ja)
-        {
-            return "ja";
-        }
-        else if (id == LPMobile.Hashed.Language.En)
-        {
-            return "en";
-        }
-
-        return string.Empty;
-    }
 }
 
 /*public class DateTimeToStringConverter : IValueConverter

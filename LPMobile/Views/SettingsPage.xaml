@@ -13,10 +13,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <VerticalStackLayout>
 
-        <Grid HorizontalOptions="Center">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -31,10 +31,16 @@
             <Picker Grid.Row="0" Grid.Column="1"  x:Name="LanguagePicker" ItemsSource="{Binding CultureList, Converter={StaticResource CultureListToStringConverter}}" SelectedIndex="{Binding CultureIndexValue}"  VerticalOptions="Center" Margin="5" />
 
             <Label Grid.Row="1" Grid.Column="0" Text="{Arc:C4 Settings.DisplayScaling}"  VerticalOptions="Center" Margin="5" />
+
         </Grid>
 
+        <Label Text="{Arc:C4 License.App}"  VerticalOptions="Center" Margin="5" />
+        <ScrollView x:Name="Scroll2" HeightRequest="300">
+            <Editor Text="{Arc:C4 License.Library}" Margin="5" IsReadOnly="True" />
+        </ScrollView>
+
         <Entry Text="{Binding TestStringValue}" MaximumWidthRequest="200"/>
-        
+
         <Label
             x:Name="LicenseLabel">
             <Label.FormattedText>
@@ -47,6 +53,8 @@
                 </FormattedString>
             </Label.FormattedText>
         </Label>
+
+
 
     </VerticalStackLayout>
 </ContentPage>
