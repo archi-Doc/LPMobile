@@ -57,7 +57,7 @@ public class C4BindingExtension : IMarkupExtension<BindingBase>
 
     public BindingBase ProvideValue(IServiceProvider serviceProvider)
     {
-        var b = new Binding() { Source = new C4BindingSource(this.Source) };
+        var b = new Binding() { Path = "Value", Source = new C4BindingSource(this.Source) };
         return b;
 
         // var b = new BindingExtension() { Source = new C4BindingSource(this.Source) };
@@ -86,6 +86,8 @@ public class C4BindingSource : INotifyPropertyChanged
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
     }
+
+    // public override string ToString() => HashedString.GetOrIdentifier(this.key);
 }
 
 public class FormatExtension : IMarkupExtension<BindingBase>
