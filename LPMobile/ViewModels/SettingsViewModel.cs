@@ -12,16 +12,16 @@ namespace LPMobile.ViewModels;
 [ValueLinkObject]
 public partial class SettingsViewModel
 {
-    public List<string> RawCultureList { get; private set; } = new List<string>() { "en", "ja" };
-
-    [Link(AutoNotify = true)]
-    private List<string> cultureList = new List<string>();
+    public List<int> CultureList { get; private set; } = new() { 0, 1, };
 
     [Link(AutoNotify = true)]
     private string testString = string.Empty;
 
     [Link(AutoNotify = true)]
-    private string currentCulture = string.Empty;
+    private int cultureIndex;
+
+    [Link(AutoNotify = true)]
+    private ulong currentCulture;
 
     private ICommand? exitCommand;
 
@@ -40,14 +40,25 @@ public partial class SettingsViewModel
         this.appData = appData;
     }
 
-    public void Appearing()
+    public void OnNavigatedTo()
     {
-        this.CurrentCultureValue = this.appData.Settings.Culture;
-        this.CultureListValue = this.RawCultureList.Select(x => (string)CultureToStringConverter.Instance.Convert(x, null!, null!, null!)).ToList();
+        this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
+        this.CultureIndexValue = Converters.CultureStringToIndex(this.appData.Settings.Culture);
     }
 
-    public void Disappearing(bool save)
+    public void Appearing()
     {
+        // this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
+    }
+
+    public void OnNavigatedFrom()
+    {
+        var culture = Converters.CultureIndexToString(this.CultureIndexValue);
+        if (this.appData.Settings.Culture != culture)
+        {
+            this.appData.Settings.Culture = culture;
+            this.viewService.SwitchCulture(culture);
+        }
     }
 
     private IViewService viewService;

@@ -13,14 +13,16 @@ public partial class SettingsPage : ContentPage
         this.viewModel = vm;
     }
 
-    private void ContentPage_Appearing(object sender, EventArgs e)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        this.viewModel.Appearing();
+        base.OnNavigatedTo(args);
+        this.viewModel.OnNavigatedTo();
     }
 
-    private void ContentPage_Disappearing(object sender, EventArgs e)
+    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
     {
-        this.viewModel.Disappearing(true);
+        base.OnNavigatedFrom(args);
+        this.viewModel.OnNavigatedFrom();
     }
 
     private SettingsViewModel viewModel;

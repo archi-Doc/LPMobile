@@ -6,5 +6,6 @@
     xmlns:Arc="clr-namespace:Arc.Views">
 
     <Arc:CultureToStringConverter x:Key="CultureToStringConverter" />
+    <Arc:CultureListToStringConverter x:Key="CultureListToStringConverter" />
 
 </ResourceDictionary>

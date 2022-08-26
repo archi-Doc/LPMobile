@@ -1,9 +1,55 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using System;
+using System.Collections.ObjectModel;
 using Tinyhand;
 
 namespace Arc.Views;
+
+public static class Converters
+{
+    public static int CultureStringToIndex(string culture) => culture switch
+    {
+        "ja" => 0,
+        "en" => 1,
+        _ => 0,
+    };
+
+    public static string CultureIndexToString(int index) => index switch
+    {
+        0 => "ja",
+        1 => "en",
+        _ => "ja",
+    };
+
+    public static ulong CultureIndexToId(int index) => index switch
+    {
+        0 => LPMobile.Hashed.Language.Ja,
+        1 => LPMobile.Hashed.Language.En,
+        _ => LPMobile.Hashed.Language.Ja,
+    };
+
+    public static ulong CultureStringToId(string culture) => culture switch
+    {
+        "ja" => LPMobile.Hashed.Language.Ja,
+        "en" => LPMobile.Hashed.Language.En,
+        _ => 0,
+    };
+
+    public static string CultureIdToString(ulong id)
+    {
+        if (id == LPMobile.Hashed.Language.Ja)
+        {
+            return "ja";
+        }
+        else if (id == LPMobile.Hashed.Language.En)
+        {
+            return "en";
+        }
+
+        return string.Empty;
+    }
+}
 
 /*public class DateTimeToStringConverter : IValueConverter
 {// DateTime to String
@@ -57,7 +103,57 @@ public class DisplayScalingToStringConverter : IValueConverter
     }
 }*/
 
+public class CultureListToStringConverter : IValueConverter
+{// Culture to String
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is List<int> list)
+        {
+            var stringList = list.Select(x => HashedString.Get(Converters.CultureIndexToId(x))).ToList();
+            /*var collection = new ObservableCollection<string>();
+            foreach (var x in list)
+            {
+                collection.Add(HashedString.Get(x));
+            }*/
+
+            return stringList;
+        }
+
+        return Array.Empty<string>();
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public class CultureToStringConverter : IValueConverter
+{// Culture to String
+    public static CultureToStringConverter Instance { get; } = new();
+
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is ulong id)
+        {
+            return HashedString.Get(id);
+        }
+
+        return string.Empty;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    {
+        if (value is string st)
+        {
+            return Converters.CultureStringToId(st);
+        }
+
+        return 0;
+    }
+}
+
+/*public class CultureToStringConverter : IValueConverter
 {// Culture to String
     public static CultureToStringConverter Instance { get; } = new();
 
@@ -96,7 +192,7 @@ public class CultureToStringConverter : IValueConverter
 
         return string.Empty;
     }
-}
+}*/
 
 /*public class BoolToVisibilityConverter : IValueConverter
 {
