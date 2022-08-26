@@ -101,14 +101,8 @@ internal class ViewServiceImpl : Arc.Views.IViewService
 
     public void SwitchCulture(string culture)
     {
-        try
-        {
-            HashedString.ChangeCulture(culture);
-            Arc.Views.C4Updater.C4Update();
-        }
-        catch
-        {
-        }
+        HashedString.ChangeCulture(culture);
+        Arc.Views.C4Updater.C4Update();
     }
 
     private double fontScale = 1.0d;

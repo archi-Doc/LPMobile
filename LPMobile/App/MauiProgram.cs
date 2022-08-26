@@ -36,6 +36,12 @@ public static class MauiProgram
                 // App
                 context.AddSingleton<App>();
 
+                // Logger
+                context.AddLoggerResolver(context =>
+                {
+                    context.SetOutput<FileLogger<FileLoggerOptions>>();
+                });
+
                 // Views
                 context.Services.AddSingleton<IViewService, ViewServiceImpl>();
                 context.AddSingleton<Views.AppShell>();
@@ -71,6 +77,7 @@ public static class MauiProgram
         // Build MauiApp & Unit.
         var mauiApp = mauiBuilder.Build();
         ServiceProvider = mauiApp.Services;
+        ServiceProvider.GetRequiredService<ILogger<MauiApp>>().TryGet()?.Log("App start.");
 
         // Run
         var options = new LP.Data.NetsphereOptions();
@@ -125,12 +132,6 @@ public static class MauiProgram
         context.SetOptions(appData);
         context.SetOptions(appData.Settings);
 
-        try
-        {
-            HashedString.ChangeCulture(appData.Settings.Culture);
-        }
-        catch
-        {
-        }
+        HashedString.ChangeCulture(appData.Settings.Culture);
     }
 }
