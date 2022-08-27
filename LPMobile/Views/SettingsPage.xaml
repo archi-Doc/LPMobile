@@ -16,6 +16,11 @@
 
     <VerticalStackLayout>
 
+        <Button Text="{Arc:C4 Button.Back}"
+                Command="{Binding BackCommand}"
+                MinimumWidthRequest="120"
+                HorizontalOptions="Start"/>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -34,7 +39,7 @@
 
         </Grid>
 
-        <Label Text="{Arc:C4 License.App}"  VerticalOptions="Center" Margin="5" />
+        <Label Text="{Binding AppLicense}"  VerticalOptions="Center" Margin="5" />
         <ScrollView x:Name="Scroll2" HeightRequest="300">
             <Editor Text="{Arc:C4 License.Library}" Margin="5" IsReadOnly="True" />
         </ScrollView>

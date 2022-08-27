@@ -37,12 +37,22 @@ public partial class SettingsViewModel
         });
     }
 
+    private ICommand? backCommand;
+
+    public ICommand BackCommand
+    {
+        get => this.backCommand ??= new Command(async () =>
+        {
+            await Shell.Current.GoToAsync("//main");
+        });
+    }
+
     public SettingsViewModel(IViewService viewService, AppData appData)
     {
         this.viewService = viewService;
         this.appData = appData;
 
-        this.AppLicense = HashedString.Get("App.License");
+        this.AppLicense = HashedString.Get(Hashed.App.Name) + " " + HashedString.Get("License.App");
     }
 
     public void OnNavigatedTo()

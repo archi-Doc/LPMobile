@@ -25,5 +25,11 @@ public partial class SettingsPage : ContentPage
         this.viewModel.OnNavigatedFrom();
     }
 
+    protected override bool OnBackButtonPressed()
+    {
+        this.viewModel.BackCommand.Execute(null);
+        return true;
+    }
+
     private SettingsViewModel viewModel;
 }

@@ -17,6 +17,7 @@ public partial class App : Application
         this.InitializeComponent();
 
         this.MainPage = this.serviceProvider.GetRequiredService<AppShell>();
+        // this.MainPage = new NavigationPage(this.serviceProvider.GetRequiredService<MainPage>());
     }
 
     protected override Window CreateWindow(IActivationState? activationState)

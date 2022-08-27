@@ -16,6 +16,8 @@ public partial class MainViewModel
 
     public DateTime CurrentTime { get; private set; } = DateTime.Now;
 
+    public string DataDirectory { get; private set; }
+
     [Link(AutoNotify = true)]
     private bool hideDialogButton;
 
@@ -208,6 +210,7 @@ public partial class MainViewModel
     {
         this.viewService = viewService;
         this.appData = appData;
+        this.DataDirectory = FileSystem.Current.AppDataDirectory;
         this.TestGoshujin = this.appData.TestItems;
     }
 
