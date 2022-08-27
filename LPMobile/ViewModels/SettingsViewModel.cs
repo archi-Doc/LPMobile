@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
 using Tinyhand;
+using Tinyhand.IO;
 using ValueLink;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
@@ -44,6 +45,28 @@ public partial class SettingsViewModel
         get => this.backCommand ??= new Command(async () =>
         {
             await Shell.Current.GoToAsync("//main");
+        });
+    }
+
+    private ICommand? defaultCommand;
+
+    public ICommand DefaultCommand
+    {
+        get => this.defaultCommand ??= new Command(async () =>
+        {
+            if (await this.viewService.DisplayAlert(0, Hashed.Dialog.Default) == true)
+            {
+                RestoreDefault();
+            }
+
+            void RestoreDefault()
+            {
+                var b = TinyhandSerializer.Serialize(TinyhandSerializer.Reconstruct<AppSettings>());
+                var r = new TinyhandReader(b);
+                this.appData.Settings.Deserialize(ref r, TinyhandSerializerOptions.Standard);
+
+                this.OnNavigatedTo();
+            }
         });
     }
 

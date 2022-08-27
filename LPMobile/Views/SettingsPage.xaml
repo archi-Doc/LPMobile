@@ -16,11 +16,26 @@
 
     <VerticalStackLayout>
 
-        <Button Text="{Arc:C4 Button.Back}"
-                Command="{Binding BackCommand}"
-                MinimumWidthRequest="120"
-                HorizontalOptions="Start"/>
-        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Text="{Arc:C4 Button.Back}"
+                    Command="{Binding BackCommand}"
+                    MinimumWidthRequest="120"
+                    HorizontalOptions="Start"/>
+
+            <Button Grid.Column="1"
+                    Text="{Arc:C4 Button.Default}"
+                    Command="{Binding DefaultCommand}"
+                    MinimumWidthRequest="120"
+                    HorizontalOptions="End"/>
+            
+        </Grid>
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

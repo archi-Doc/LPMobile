@@ -105,6 +105,24 @@ internal class ViewServiceImpl : Arc.Views.IViewService
         Arc.Views.C4Updater.C4Update();
     }
 
+    public Task<bool> DisplayAlert(ulong title, ulong message, ulong accept, ulong cancel)
+    {
+        var page = Application.Current?.MainPage;
+        if (page == null)
+        {
+            return Task.FromResult(false);
+        }
+
+        return page.DisplayAlert(
+            title == 0 ? string.Empty : HashedString.Get(title),
+            message == 0 ? string.Empty : HashedString.Get(message),
+            accept == 0 ? string.Empty : HashedString.Get(accept),
+            cancel == 0 ? string.Empty : HashedString.Get(cancel));
+    }
+
+    public Task<bool> DisplayAlert(ulong title, ulong message)
+        => this.DisplayAlert(title, message, Hashed.Dialog.Yes, Hashed.Dialog.No);
+
     private double fontScale = 1.0d;
 
     // private Page currentPage = default!;

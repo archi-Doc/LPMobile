@@ -11,4 +11,8 @@ public interface IViewService
     double GetFontScale();
 
     void SetFontScale(double scale);
+
+    Task<bool> DisplayAlert(ulong title, ulong message, ulong accept, ulong cancel);
+
+    Task<bool> DisplayAlert(ulong title, ulong message);
 }
