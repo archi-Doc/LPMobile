@@ -9,10 +9,11 @@ namespace LPMobile;
 
 public partial class App : Application
 {
-    public App(IServiceProvider serviceProvider, AppData appData)
+    public App(IServiceProvider serviceProvider, AppData appData, ILogger<App> logger)
     {
         this.serviceProvider = serviceProvider;
         this.appData = appData;
+        this.logger = logger;
         this.InitializeComponent();
 
         this.MainPage = this.serviceProvider.GetRequiredService<AppShell>();
@@ -32,6 +33,7 @@ public partial class App : Application
 
     private void Window_Activated(object? sender, EventArgs e)
     {
+        this.logger.TryGet()?.Log("Start");
         if (this.serviceProvider.GetService<IViewService>() is { } viewService)
         {
             viewService.SetFontScale(this.appData.Settings.FontScale);
@@ -39,7 +41,7 @@ public partial class App : Application
     }
 
     private void Window_Stopped(object? sender, EventArgs e)
-    {// Exit1 (Window is still visible)
+    {// Exit1
         try
         {
             if (this.serviceProvider.GetService<IViewService>() is { } viewService)
@@ -54,6 +56,13 @@ public partial class App : Application
         catch
         {
         }
+
+        this.logger.TryGet()?.Log("Exit");
+
+        ThreadCore.Root.Terminate();
+        ThreadCore.Root.WaitForTermination(-1); // Wait for the termination infinitely.
+        this.serviceProvider.GetService<UnitLogger>()?.FlushAndTerminate();
+        ThreadCore.Root.TerminationEvent.Set(); // The termination process is complete (#1).
     }
 
     private void Window_Resumed(object? sender, EventArgs e)
@@ -62,12 +71,9 @@ public partial class App : Application
 
     private void Window_Destroying(object? sender, EventArgs e)
     {
-        ThreadCore.Root.Terminate();
-        ThreadCore.Root.WaitForTermination(-1); // Wait for the termination infinitely.
-        this.serviceProvider.GetService<UnitLogger>()?.FlushAndTerminate();
-        ThreadCore.Root.TerminationEvent.Set(); // The termination process is complete (#1).
     }
 
     private IServiceProvider serviceProvider;
     private AppData appData;
+    private ILogger logger;
 }

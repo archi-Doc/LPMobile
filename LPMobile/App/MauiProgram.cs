@@ -77,7 +77,6 @@ public static class MauiProgram
         // Build MauiApp & Unit.
         var mauiApp = mauiBuilder.Build();
         ServiceProvider = mauiApp.Services;
-        ServiceProvider.GetRequiredService<ILogger<MauiApp>>().TryGet()?.Log("App start.");
 
         // Run
         var options = new LP.Data.NetsphereOptions();
