@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Arc="clr-namespace:Arc.Views"
+             x:Class="LPMobile.Views.SettingsPage"
+             Shell.NavBarIsVisible="False">
+    <!--Hide Navigation Bar-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Styles/Static.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Text="{Arc:C4 Settings.Language}" VerticalOptions="Center" Margin="5" />
+            <Picker Grid.Row="0" Grid.Column="1"  x:Name="LanguagePicker" ItemsSource="{Binding CultureList, Converter={StaticResource CultureListToStringConverter}}" SelectedIndex="{Binding CultureIndexValue}"  VerticalOptions="Center" Margin="5" />
+
+            <Label Grid.Row="1" Grid.Column="0" Text="{Arc:C4 Settings.DisplayScaling}"  VerticalOptions="Center" Margin="5" />
+
+        </Grid>
+
+        <Label Text="{Arc:C4 License.App}"  VerticalOptions="Center" Margin="5" />
+        <ScrollView x:Name="Scroll2" HeightRequest="300">
+            <Editor Text="{Arc:C4 License.Library}" Margin="5" IsReadOnly="True" />
+        </ScrollView>
+
+        <Entry Text="{Binding TestStringValue}" MaximumWidthRequest="200"/>
+
+        <Label
+            x:Name="LicenseLabel">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="XAML中で" />
+                    <Span Text="色を付けたり" TextColor="Red" />
+                    <Span Text="できます。" />
+                    <Arc:HyperlinkSpan Text="here------"
+                                         Url="https://docs.microsoft.com/dotnet/" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+
+
+    </VerticalStackLayout>
+</ContentPage>

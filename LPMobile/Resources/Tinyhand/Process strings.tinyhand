@@ -1,0 +1,5 @@
+mode = "process"
+process = "language file"
+
+reference = "Strings-en.tinyhand"
+"Strings-ja.tinyhand"
