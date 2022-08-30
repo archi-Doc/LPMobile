@@ -54,7 +54,7 @@ public partial class SettingsViewModel
     {
         get => this.defaultCommand ??= new Command(async () =>
         {
-            if (await this.viewService.DisplayAlert(0, Hashed.Dialog.Default) == true)
+            if (await this.viewService.DisplayYesOrNo(0, Hashed.Dialog.Default) == true)
             {
                 RestoreDefault();
             }
@@ -95,7 +95,7 @@ public partial class SettingsViewModel
         if (this.appData.Settings.Culture != culture)
         {
             this.appData.Settings.Culture = culture;
-            this.viewService.SwitchCulture(culture);
+            this.viewService.ChangeCulture(culture);
         }
     }
 

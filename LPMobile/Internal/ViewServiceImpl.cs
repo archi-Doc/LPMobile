@@ -99,7 +99,7 @@ internal class ViewServiceImpl : Arc.Views.IViewService
         }
     }
 
-    public void SwitchCulture(string culture)
+    public void ChangeCulture(string culture)
     {
         HashedString.ChangeCulture(culture);
         Arc.Views.C4Updater.C4Update();
@@ -120,7 +120,7 @@ internal class ViewServiceImpl : Arc.Views.IViewService
             cancel == 0 ? string.Empty : HashedString.Get(cancel));
     }
 
-    public Task<bool> DisplayAlert(ulong title, ulong message)
+    public Task<bool> DisplayYesOrNo(ulong title, ulong message)
         => this.DisplayAlert(title, message, Hashed.Dialog.Yes, Hashed.Dialog.No);
 
     private double fontScale = 1.0d;

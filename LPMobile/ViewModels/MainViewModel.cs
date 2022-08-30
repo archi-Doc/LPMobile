@@ -152,7 +152,7 @@ public partial class MainViewModel
                 this.appData.Settings.Culture = "ja";
             }
 
-            this.viewService.SwitchCulture(this.appData.Settings.Culture);
+            this.viewService.ChangeCulture(this.appData.Settings.Culture);
         });
     }
 

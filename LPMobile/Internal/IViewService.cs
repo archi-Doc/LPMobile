@@ -6,7 +6,7 @@ public interface IViewService
 {
     Task ExitAsync(bool confirmation = false);
 
-    void SwitchCulture(string culture);
+    void ChangeCulture(string culture);
 
     double GetFontScale();
 
@@ -14,5 +14,5 @@ public interface IViewService
 
     Task<bool> DisplayAlert(ulong title, ulong message, ulong accept, ulong cancel);
 
-    Task<bool> DisplayAlert(ulong title, ulong message);
+    Task<bool> DisplayYesOrNo(ulong title, ulong message);
 }
