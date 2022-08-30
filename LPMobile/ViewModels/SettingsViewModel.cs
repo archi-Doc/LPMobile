@@ -80,6 +80,7 @@ public partial class SettingsViewModel
 
     public void OnNavigatedTo()
     {
+        this.viewService.SetFontScale(this.appData.Settings.FontScale);
         this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
         this.CultureIndexValue = Converters.CultureStringToIndex(this.appData.Settings.Culture);
     }

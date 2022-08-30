@@ -35,21 +35,12 @@ public partial class App : Application
     private void Window_Activated(object? sender, EventArgs e)
     {
         this.logger.TryGet()?.Log("Start");
-        if (this.serviceProvider.GetService<IViewService>() is { } viewService)
-        {
-            viewService.SetFontScale(this.appData.Settings.FontScale);
-        }
     }
 
     private void Window_Stopped(object? sender, EventArgs e)
     {// Exit1
         try
         {
-            if (this.serviceProvider.GetService<IViewService>() is { } viewService)
-            {
-                this.appData.Settings.FontScale = viewService.GetFontScale();
-            }
-
             var bin = TinyhandSerializer.SerializeToUtf8(this.appData);
             Directory.CreateDirectory(FileSystem.Current.AppDataDirectory);
             File.WriteAllBytes(Path.Combine(FileSystem.Current.AppDataDirectory, AppConst.AppDataFile), bin);

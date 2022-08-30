@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System.Collections.Concurrent;
 using Tinyhand;
 
 namespace LPMobile;
@@ -51,29 +52,34 @@ internal class ViewServiceImpl : Arc.Views.IViewService
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 
-    public double GetFontScale() => this.fontScale;
-
     public void SetFontScale(double scale)
     {
-        var ratio = scale / this.fontScale;
-        if (ratio == 1)
-        {
-            return;
-        }
-
         if (Application.Current?.MainPage is { } mainPage)
         {
             if (mainPage is Shell shell)
             {
-                ProcessElements(shell.CurrentItem.GetVisualTreeDescendants(), ratio);
+                mainPage = shell.CurrentPage;
+            }
+
+            if (this.pageToFontScale.TryGetValue(mainPage, out var current))
+            {
+                if (current == scale)
+                {
+                    return;
+                }
             }
             else
             {
-                ProcessElements(mainPage.GetVisualTreeDescendants(), ratio);
+                current = 1.0d;
             }
-        }
 
-        this.fontScale = scale;
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var ratio = scale / current;
+                ProcessElements(mainPage.GetVisualTreeDescendants(), ratio);
+                this.pageToFontScale[mainPage] = scale;
+            });
+        }
 
         static void ProcessElements(IReadOnlyList<IVisualTreeElement> list, double ratio)
         {
@@ -123,7 +129,7 @@ internal class ViewServiceImpl : Arc.Views.IViewService
     public Task<bool> DisplayYesOrNo(ulong title, ulong message)
         => this.DisplayAlert(title, message, Hashed.Dialog.Yes, Hashed.Dialog.No);
 
-    private double fontScale = 1.0d;
+    private ConcurrentDictionary<Page, double> pageToFontScale = new();
 
     // private Page currentPage = default!;
 

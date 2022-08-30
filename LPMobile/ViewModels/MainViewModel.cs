@@ -200,9 +200,8 @@ public partial class MainViewModel
                 }
             }*/
 
-            var scale = this.viewService.GetFontScale();
-            scale *= 1.2d;
-            this.viewService.SetFontScale(scale);
+            this.appData.Settings.FontScale *= 1.2d;
+            this.viewService.SetFontScale(this.appData.Settings.FontScale);
         });
     }
 

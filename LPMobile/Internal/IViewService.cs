@@ -8,8 +8,6 @@ public interface IViewService
 
     void ChangeCulture(string culture);
 
-    double GetFontScale();
-
     void SetFontScale(double scale);
 
     Task<bool> DisplayAlert(ulong title, ulong message, ulong accept, ulong cancel);
