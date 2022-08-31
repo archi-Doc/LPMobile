@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
@@ -16,7 +17,11 @@ public partial class MainViewModel
 
     public DateTime CurrentTime { get; private set; } = DateTime.Now;
 
-    public string DataDirectory { get; private set; }
+    [Link(AutoNotify = true)]
+    private string output = string.Empty;
+
+    [Link(AutoNotify = true)]
+    private string nodeAddress = string.Empty;
 
     [Link(AutoNotify = true)]
     private bool hideDialogButton;
@@ -184,9 +189,8 @@ public partial class MainViewModel
     {
         get => this.pingCommand ??= new Command(async () =>
         {
-            /*
-            var node = this.TextEntry.Text ?? string.Empty;
-            if (LP.Subcommands.SubcommandService.TryParseNodeAddress(this.logger, node, out var nodeAddress))
+            var node = this.NodeAddressValue;
+            if (LP.Subcommands.SubcommandService.TryParseNodeAddress(null, node, out var nodeAddress))
             {
                 using (var terminal = this.netControl.Terminal.Create(nodeAddress))
                 {
@@ -195,24 +199,26 @@ public partial class MainViewModel
                     var t = terminal.SendAndReceiveAsync<PacketPing, PacketPingResponse>(p);
                     if (t.Result.Result == NetResult.Success && t.Result.Value is { } response)
                     {
-                        // this.TextLabel.Text = $"{response.ToString()}, {sw.ElapsedMilliseconds} ms";
+                        this.OutputValue = $"{response.ToString()}, {sw.ElapsedMilliseconds} ms";
                     }
                 }
-            }*/
+            }
 
-            this.appData.Settings.FontScale *= 1.2d;
-            this.viewService.SetFontScale(this.appData.Settings.FontScale);
+            // this.appData.Settings.FontScale *= 1.2d;
+            // this.viewService.SetFontScale(this.appData.Settings.FontScale);
         });
     }
 
-    public MainViewModel(IViewService viewService, AppData appData)
+    public MainViewModel(IViewService viewService, AppData appData, NetControl netControl)
     {
         this.viewService = viewService;
         this.appData = appData;
-        this.DataDirectory = FileSystem.Current.AppDataDirectory;
+        this.OutputValue = FileSystem.Current.AppDataDirectory;
         this.TestGoshujin = this.appData.TestItems;
+        this.netControl = netControl;
     }
 
     private IViewService viewService;
     private AppData appData;
+    private NetControl netControl;
 }

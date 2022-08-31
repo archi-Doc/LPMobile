@@ -35,7 +35,7 @@
                 HorizontalOptions="Center" />
 
                 <Label
-                Text="{Binding DataDirectory}"
+                Text="{Binding OutputValue}"
                 FontSize="12"
                 HorizontalOptions="Center" />
 
@@ -49,9 +49,12 @@
                 </HorizontalStackLayout>
 
                 <Entry
-                x:Name="TextEntry"
-                MaximumWidthRequest="300"
+                    x:Name="TextEntry"
+                    Text="{Binding NodeAddressValue}"
+                    MaximumWidthRequest="300"
                 />
+
+                <Button Text="{Arc:C4 Button.Ping}" Command="{Binding PingCommand}" />
 
             </VerticalStackLayout>
 
@@ -68,7 +71,6 @@
                 <Button Text="{Arc:C4 Button.Settings}" Command="{Binding SettingsCommand}" />
                 <Button Text="{Arc:C4 Button.SwitchLanguage}" Command="{Binding SwitchCultureCommand}" />
                 <Button Text="{Arc:C4 Button.OpenDataDirectory}" Command="{Binding OpenDataDirectoryCommand}" />
-                <Button Text="{Arc:C4 Button.Ping}" Command="{Binding PingCommand}" />
 
             </VerticalStackLayout>
 
