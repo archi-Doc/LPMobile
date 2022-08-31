@@ -5,57 +5,64 @@
              x:Class="LPMobile.Views.MainPage">
 
     <ScrollView x:Name="Scroll1">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <VerticalStackLayout Grid.Row="0" Grid.Column="1"
+            <VerticalStackLayout Grid.Row="0" Grid.Column="1"
             Spacing="15"
             Padding="20,0"
             VerticalOptions="Center">
 
-            <Label
+                <Label
                 Text="{Arc:C4 App.Hello}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
-            <Image
+                <Image
                 Source="dotnet_bot.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
                 HeightRequest="200"
                 HorizontalOptions="Center" />
 
-            <Label
+                <Label
                 Text="{Arc:Format {Arc:C4Binding App.TimeFormat}, {Binding CurrentTime}}"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="16"
                 HorizontalOptions="Center" />
 
-            <Label
+                <Label
                 Text="{Binding DataDirectory}"
                 FontSize="12"
                 HorizontalOptions="Center" />
 
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <!--Binding UpdateSourceTrigger ...-->
-                <Entry Text="{Binding Number1}" WidthRequest="100" />
-                <Label Text="+" Margin="5" />
-                <Entry Text="{Binding Number2}" WidthRequest="100" />
-                <Label Text="=" Margin="5" />
-                <Entry Text="{Binding Number3Value}" WidthRequest="100" />
-            </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <!--Binding UpdateSourceTrigger ...-->
+                    <Entry Text="{Binding Number1}" WidthRequest="100" />
+                    <Label Text="+" Margin="5" />
+                    <Entry Text="{Binding Number2}" WidthRequest="100" />
+                    <Label Text="=" Margin="5" />
+                    <Entry Text="{Binding Number3Value}" WidthRequest="100" />
+                </HorizontalStackLayout>
 
-            <Entry
+                <Entry
                 x:Name="TextEntry"
                 MaximumWidthRequest="300"
                 />
 
-        </VerticalStackLayout>
+            </VerticalStackLayout>
 
             <VerticalStackLayout>
+
+                <VerticalStackLayout.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On>False</On>
+                        <On Platform="WinUI">True</On>
+                    </OnPlatform>
+                </VerticalStackLayout.IsVisible>
 
                 <Button Text="{Arc:C4 Button.Exit}"
                     Command="{Binding ExitCommand}" />
@@ -73,9 +80,9 @@
                         Command="{Binding PingCommand}" />
 
             </VerticalStackLayout>
-        
 
-    </Grid>
+
+        </Grid>
 
     </ScrollView>
 
