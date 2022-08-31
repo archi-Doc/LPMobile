@@ -64,20 +64,11 @@
                     </OnPlatform>
                 </VerticalStackLayout.IsVisible>
 
-                <Button Text="{Arc:C4 Button.Exit}"
-                    Command="{Binding ExitCommand}" />
-
-                <Button Text="{Arc:C4 Button.Settings}"
-                    Command="{Binding SettingsCommand}" />
-
-                <Button Text="{Arc:C4 Button.SwitchLanguage}"
-                        Command="{Binding SwitchCultureCommand}" />
-
-                <Button Text="{Arc:C4 Button.OpenDataDirectory}"
-                        Command="{Binding OpenDataDirectoryCommand}" />
-
-                <Button Text="{Arc:C4 Button.Ping}"
-                        Command="{Binding PingCommand}" />
+                <Button Text="{Arc:C4 Button.Exit}" Command="{Binding ExitCommand}" />
+                <Button Text="{Arc:C4 Button.Settings}" Command="{Binding SettingsCommand}" />
+                <Button Text="{Arc:C4 Button.SwitchLanguage}" Command="{Binding SwitchCultureCommand}" />
+                <Button Text="{Arc:C4 Button.OpenDataDirectory}" Command="{Binding OpenDataDirectoryCommand}" />
+                <Button Text="{Arc:C4 Button.Ping}" Command="{Binding PingCommand}" />
 
             </VerticalStackLayout>
 
