@@ -7,5 +7,6 @@
 
     <Arc:CultureToStringConverter x:Key="CultureToStringConverter" />
     <Arc:CultureListToStringConverter x:Key="CultureListToStringConverter" />
+    <Arc:ScaleListToStringConverter x:Key="ScaleListToStringConverter" />
 
 </ResourceDictionary>

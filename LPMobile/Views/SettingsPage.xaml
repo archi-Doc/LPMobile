@@ -52,6 +52,8 @@
 
             <Label Grid.Row="1" Grid.Column="0" Text="{Arc:C4 Settings.DisplayScaling}"  VerticalOptions="Center" Margin="5" />
 
+            <Picker Grid.Row="1" Grid.Column="1"  x:Name="ScalingPicker" ItemsSource="{Binding ScalingList, Converter={StaticResource ScaleListToStringConverter}}" SelectedIndex="{Binding ScalingIndexValue}"  VerticalOptions="Center" Margin="5" SelectedIndexChanged="ScalingPicker_SelectedIndexChanged" />
+
         </Grid>
 
         <Label Text="{Binding AppLicense}"  VerticalOptions="Center" Margin="5" />

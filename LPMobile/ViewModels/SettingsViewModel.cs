@@ -14,7 +14,11 @@ namespace LPMobile.ViewModels;
 [ValueLinkObject]
 public partial class SettingsViewModel
 {
+    public const double ScalingRatio = 1.15d;
+
     public List<int> CultureList { get; private set; } = new() { 0, 1, };
+
+    public List<int> ScalingList => Converters.ScaleIndexList;
 
     public string AppLicense { get; }
 
@@ -23,6 +27,9 @@ public partial class SettingsViewModel
 
     [Link(AutoNotify = true)]
     private int cultureIndex;
+
+    [Link(AutoNotify = true)]
+    private int scalingIndex;
 
     [Link(AutoNotify = true)]
     private ulong currentCulture;
@@ -83,11 +90,7 @@ public partial class SettingsViewModel
         this.viewService.SetFontScale(this.appData.Settings.FontScale);
         this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
         this.CultureIndexValue = Converters.CultureStringToIndex(this.appData.Settings.Culture);
-    }
-
-    public void Appearing()
-    {
-        // this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
+        this.ScalingIndexValue = Converters.ScaleToScaleIndex(this.appData.Settings.FontScale);
     }
 
     public void OnNavigatedFrom()
@@ -98,6 +101,12 @@ public partial class SettingsViewModel
             this.appData.Settings.Culture = culture;
             this.viewService.ChangeCulture(culture);
         }
+    }
+
+    public void OnScaleChanged()
+    {
+        this.appData.Settings.FontScale = Converters.ScaleIndexToScale(this.ScalingIndexValue);
+        this.viewService.SetFontScale(this.appData.Settings.FontScale);
     }
 
     private IViewService viewService;

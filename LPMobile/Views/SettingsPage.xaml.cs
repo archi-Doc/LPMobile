@@ -9,6 +9,7 @@ public partial class SettingsPage : ContentPage
     public SettingsPage(SettingsViewModel viewModel)
     {
         this.InitializeComponent();
+
         this.BindingContext = viewModel;
         this.viewModel = viewModel;
     }
@@ -32,4 +33,9 @@ public partial class SettingsPage : ContentPage
     }
 
     private SettingsViewModel viewModel;
+
+    private void ScalingPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.viewModel?.OnScaleChanged();
+    }
 }
