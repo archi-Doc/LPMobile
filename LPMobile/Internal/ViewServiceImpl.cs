@@ -101,6 +101,10 @@ internal class ViewServiceImpl : Arc.Views.IViewService
                 {
                     label.FontSize *= ratio;
                 }
+                else if (x is Picker picker)
+                {
+                    picker.FontSize *= ratio;
+                }
             }
         }
     }

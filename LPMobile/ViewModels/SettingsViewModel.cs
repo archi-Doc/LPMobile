@@ -31,9 +31,6 @@ public partial class SettingsViewModel
     [Link(AutoNotify = true)]
     private int scalingIndex;
 
-    [Link(AutoNotify = true)]
-    private ulong currentCulture;
-
     private ICommand? exitCommand;
 
     public ICommand ExitCommand
@@ -88,7 +85,6 @@ public partial class SettingsViewModel
     public void OnNavigatedTo()
     {
         this.viewService.SetFontScale(this.appData.Settings.FontScale);
-        this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
         this.CultureIndexValue = Converters.CultureStringToIndex(this.appData.Settings.Culture);
         this.ScalingIndexValue = Converters.ScaleToScaleIndex(this.appData.Settings.FontScale);
     }

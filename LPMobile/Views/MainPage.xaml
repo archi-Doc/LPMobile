@@ -12,8 +12,8 @@
             </Grid.ColumnDefinitions>
 
             <VerticalStackLayout Grid.Row="0" Grid.Column="1"
-            Spacing="15"
-            Padding="20,0"
+            Spacing="10"
+            Padding="10,0"
             VerticalOptions="Center">
 
                 <Label
@@ -73,7 +73,6 @@
                 <Button Text="{Arc:C4 Button.OpenDataDirectory}" Command="{Binding OpenDataDirectoryCommand}" />
 
             </VerticalStackLayout>
-
 
         </Grid>
 
