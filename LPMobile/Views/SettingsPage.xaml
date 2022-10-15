@@ -17,6 +17,26 @@
     <VerticalStackLayout>
 
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0"
+                    Text="{Arc:C4 Button.Back}"
+                    Command="{Binding BackCommand}"
+                    MinimumWidthRequest="120"
+                    HorizontalOptions="Start"/>
+
+            <Button Grid.Column="1"
+                    Text="{Arc:C4 Button.Default}"
+                    Command="{Binding DefaultCommand}"
+                    MinimumWidthRequest="120"
+                    HorizontalOptions="End"/>
+            
+        </Grid>
+
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -32,9 +52,11 @@
 
             <Label Grid.Row="1" Grid.Column="0" Text="{Arc:C4 Settings.DisplayScaling}"  VerticalOptions="Center" Margin="5" />
 
+            <Picker Grid.Row="1" Grid.Column="1"  x:Name="ScalingPicker" ItemsSource="{Binding ScalingList, Converter={StaticResource ScaleListToStringConverter}}" SelectedIndex="{Binding ScalingIndexValue}"  VerticalOptions="Center" Margin="5" SelectedIndexChanged="ScalingPicker_SelectedIndexChanged" />
+
         </Grid>
 
-        <Label Text="{Arc:C4 License.App}"  VerticalOptions="Center" Margin="5" />
+        <Label Text="{Binding AppLicense}"  VerticalOptions="Center" Margin="5" />
         <ScrollView x:Name="Scroll2" HeightRequest="300">
             <Editor Text="{Arc:C4 License.Library}" Margin="5" IsReadOnly="True" />
         </ScrollView>

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System.Collections.Concurrent;
 using Tinyhand;
 
 namespace LPMobile;
@@ -51,29 +52,34 @@ internal class ViewServiceImpl : Arc.Views.IViewService
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
     }
 
-    public double GetFontScale() => this.fontScale;
-
     public void SetFontScale(double scale)
     {
-        var ratio = scale / this.fontScale;
-        if (ratio == 1)
-        {
-            return;
-        }
-
         if (Application.Current?.MainPage is { } mainPage)
         {
             if (mainPage is Shell shell)
             {
-                ProcessElements(shell.CurrentItem.GetVisualTreeDescendants(), ratio);
+                mainPage = shell.CurrentPage;
+            }
+
+            if (this.pageToFontScale.TryGetValue(mainPage, out var current))
+            {
+                if (current == scale)
+                {
+                    return;
+                }
             }
             else
             {
-                ProcessElements(mainPage.GetVisualTreeDescendants(), ratio);
+                current = 1.0d;
             }
-        }
 
-        this.fontScale = scale;
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                var ratio = scale / current;
+                ProcessElements(mainPage.GetVisualTreeDescendants(), ratio);
+                this.pageToFontScale[mainPage] = scale;
+            });
+        }
 
         static void ProcessElements(IReadOnlyList<IVisualTreeElement> list, double ratio)
         {
@@ -95,17 +101,39 @@ internal class ViewServiceImpl : Arc.Views.IViewService
                 {
                     label.FontSize *= ratio;
                 }
+                else if (x is Picker picker)
+                {
+                    picker.FontSize *= ratio;
+                }
             }
         }
     }
 
-    public void SwitchCulture(string culture)
+    public void ChangeCulture(string culture)
     {
         HashedString.ChangeCulture(culture);
         Arc.Views.C4Updater.C4Update();
     }
 
-    private double fontScale = 1.0d;
+    public Task<bool> DisplayAlert(ulong title, ulong message, ulong accept, ulong cancel)
+    {
+        var page = Application.Current?.MainPage;
+        if (page == null)
+        {
+            return Task.FromResult(false);
+        }
+
+        return page.DisplayAlert(
+            title == 0 ? string.Empty : HashedString.Get(title),
+            message == 0 ? string.Empty : HashedString.Get(message),
+            accept == 0 ? string.Empty : HashedString.Get(accept),
+            cancel == 0 ? string.Empty : HashedString.Get(cancel));
+    }
+
+    public Task<bool> DisplayYesOrNo(ulong title, ulong message)
+        => this.DisplayAlert(title, message, Hashed.Dialog.Yes, Hashed.Dialog.No);
+
+    private ConcurrentDictionary<Page, double> pageToFontScale = new();
 
     // private Page currentPage = default!;
 

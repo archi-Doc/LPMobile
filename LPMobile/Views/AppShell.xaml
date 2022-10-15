@@ -3,18 +3,22 @@
     x:Class="LPMobile.Views.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Arc="clr-namespace:Arc.Views"
     xmlns:local="clr-namespace:LPMobile.Views">
     <!--Shell.FlyoutBehavior="Disabled"-->
 
     <!--<TabBar>-->
 
-        <ShellContent
+    <MenuItem Text="{Arc:C4 Button.Exit}" Command="{Binding ExitCommand}" />
+    <MenuItem Text="{Arc:C4 Button.SwitchLanguage}" Command="{Binding SwitchCultureCommand}" />
+
+    <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="main" />
 
-        <ShellContent
-        Title="Settings"
+    <ShellContent
+        Title="{Arc:C4 Button.Settings}"
         ContentTemplate="{DataTemplate local:SettingsPage}"
         Route="settings" />
 

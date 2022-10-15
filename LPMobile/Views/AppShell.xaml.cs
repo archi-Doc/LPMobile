@@ -3,13 +3,14 @@
 using Arc.Views;
 
 namespace LPMobile.Views;
+using LPMobile.ViewModels;
 
 public partial class AppShell : Shell
 {
-    public AppShell(IViewService viewService)
+    public AppShell(IViewService viewService, MainViewModel viewModel)
     {
         this.InitializeComponent();
-
+        this.BindingContext = viewModel;
         this.viewService = viewService;
         // viewService.CurrentPage = this;
     }

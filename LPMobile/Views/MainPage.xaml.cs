@@ -7,13 +7,28 @@ namespace LPMobile.Views;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(MainViewModel vm, IViewService viewService)
+    public MainPage(IServiceProvider serviceProvider, MainViewModel viewModel, IViewService viewService, AppData appData)
     {
         this.InitializeComponent();
-        this.BindingContext = vm;
+        this.BindingContext = viewModel;
 
+        this.serviceProvider = serviceProvider;
         this.viewService = viewService;
+        this.appData = appData;
     }
 
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        this.viewService.SetFontScale(this.appData.Settings.FontScale);
+        base.OnNavigatedTo(args);
+    }
+
+    private IServiceProvider serviceProvider;
     private IViewService viewService;
+    private AppData appData;
+
+    /*private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await this.Navigation.PushAsync(this.serviceProvider.GetRequiredService<SettingsPage>());
+    }*/
 }

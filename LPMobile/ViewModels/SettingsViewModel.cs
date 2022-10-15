@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Arc.Views;
 using LPMobile.Models;
 using Tinyhand;
+using Tinyhand.IO;
 using ValueLink;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
@@ -13,7 +14,11 @@ namespace LPMobile.ViewModels;
 [ValueLinkObject]
 public partial class SettingsViewModel
 {
+    public const double ScalingRatio = 1.15d;
+
     public List<int> CultureList { get; private set; } = new() { 0, 1, };
+
+    public List<int> ScalingList => Converters.ScaleIndexList;
 
     public string AppLicense { get; }
 
@@ -24,7 +29,7 @@ public partial class SettingsViewModel
     private int cultureIndex;
 
     [Link(AutoNotify = true)]
-    private ulong currentCulture;
+    private int scalingIndex;
 
     private ICommand? exitCommand;
 
@@ -37,23 +42,51 @@ public partial class SettingsViewModel
         });
     }
 
+    private ICommand? backCommand;
+
+    public ICommand BackCommand
+    {
+        get => this.backCommand ??= new Command(async () =>
+        {
+            await Shell.Current.GoToAsync("//main");
+        });
+    }
+
+    private ICommand? defaultCommand;
+
+    public ICommand DefaultCommand
+    {
+        get => this.defaultCommand ??= new Command(async () =>
+        {
+            if (await this.viewService.DisplayYesOrNo(0, Hashed.Dialog.Default) == true)
+            {
+                RestoreDefault();
+            }
+
+            void RestoreDefault()
+            {
+                var b = TinyhandSerializer.Serialize(TinyhandSerializer.Reconstruct<AppSettings>());
+                var r = new TinyhandReader(b);
+                this.appData.Settings.Deserialize(ref r, TinyhandSerializerOptions.Standard);
+
+                this.OnNavigatedTo();
+            }
+        });
+    }
+
     public SettingsViewModel(IViewService viewService, AppData appData)
     {
         this.viewService = viewService;
         this.appData = appData;
 
-        this.AppLicense = HashedString.Get("App.License");
+        this.AppLicense = HashedString.Get(Hashed.App.Name) + " " + HashedString.Get("License.App");
     }
 
     public void OnNavigatedTo()
     {
-        this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
+        this.viewService.SetFontScale(this.appData.Settings.FontScale);
         this.CultureIndexValue = Converters.CultureStringToIndex(this.appData.Settings.Culture);
-    }
-
-    public void Appearing()
-    {
-        // this.CurrentCultureValue = Converters.CultureStringToId(this.appData.Settings.Culture);
+        this.ScalingIndexValue = Converters.ScaleToScaleIndex(this.appData.Settings.FontScale);
     }
 
     public void OnNavigatedFrom()
@@ -62,8 +95,14 @@ public partial class SettingsViewModel
         if (this.appData.Settings.Culture != culture)
         {
             this.appData.Settings.Culture = culture;
-            this.viewService.SwitchCulture(culture);
+            this.viewService.ChangeCulture(culture);
         }
+    }
+
+    public void OnScaleChanged()
+    {
+        this.appData.Settings.FontScale = Converters.ScaleIndexToScale(this.ScalingIndexValue);
+        this.viewService.SetFontScale(this.appData.Settings.FontScale);
     }
 
     private IViewService viewService;

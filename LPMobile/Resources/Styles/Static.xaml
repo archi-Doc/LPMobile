@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Arc="clr-namespace:Arc.Views">
 
-    <Arc:CultureToStringConverter x:Key="CultureToStringConverter" />
     <Arc:CultureListToStringConverter x:Key="CultureListToStringConverter" />
+    <Arc:ScaleListToStringConverter x:Key="ScaleListToStringConverter" />
 
 </ResourceDictionary>

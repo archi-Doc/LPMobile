@@ -1,6 +1,6 @@
 ﻿// License information.
 
-License.App = """Copyright (c) 2022 archi-Doc, released under the MIT license"""
+License.App = """Copyright (c) 2022 archi-Doc released under the MIT license"""
 
 License.Library = """MessagePack for C# MIT License
 Copyright (c) 2017 Yoshifumi Kawai

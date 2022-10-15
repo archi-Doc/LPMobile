@@ -6,9 +6,11 @@ public interface IViewService
 {
     Task ExitAsync(bool confirmation = false);
 
-    void SwitchCulture(string culture);
-
-    double GetFontScale();
+    void ChangeCulture(string culture);
 
     void SetFontScale(double scale);
+
+    Task<bool> DisplayAlert(ulong title, ulong message, ulong accept, ulong cancel);
+
+    Task<bool> DisplayYesOrNo(ulong title, ulong message);
 }
